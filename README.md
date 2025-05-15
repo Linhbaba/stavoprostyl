@@ -43,6 +43,12 @@ Cílem projektu je vytvořit moderní, responzivní a uživatelsky přívětivé
   - Open Sans: Podnadpisy, zvýrazněné texty
   - Roboto: Běžný odstavcový text
 
+## Struktura repozitáře
+
+Repozitář obsahuje následující větve:
+- **main** - produkční větev, obsahuje stabilní verzi webu
+- **dev** - vývojová větev pro implementaci nových funkcí a testování
+
 ## Spuštění projektu
 
 ```bash

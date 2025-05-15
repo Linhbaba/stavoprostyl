@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stavoprostyl - Webové stránky stavební firmy
 
-## Getting Started
+Moderní webové stránky pro stavební firmu Stavoprostyl vytvořené pomocí [Next.js](https://nextjs.org) a [Tailwind CSS](https://tailwindcss.com).
 
-First, run the development server:
+## O projektu
+
+Webové stránky představují stavební firmu Stavoprostyl, která se specializuje na:
+
+- Výstavbu na klíč
+- Rekonstrukce a renovace
+- Architektonické návrhy
+- Poradenství a stavební dozor
+
+Cílem projektu je vytvořit moderní, responzivní a uživatelsky přívětivé webové stránky, které odpovídají brandu firmy a pomáhají získávat nové zákazníky.
+
+## Technologie
+
+- **Frontend framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS
+- **Animace:** Framer Motion
+- **Vývoj:** TypeScript
+
+## Struktura webu
+
+- **Domů:** Úvodní stránka představující firmu, hlavní služby a reference
+- **O nás:** Stránka o společnosti - historie, hodnoty, tým, vize
+- **Služby:** Přehled všech nabízených služeb v oblasti stavebnictví
+- **Projekty:** Ukázky dokončených projektů a referencí
+- **Blog:** Odborné články, novinky z oboru, rady a tipy
+- **Kontakt:** Kontaktní informace a formulář pro nezávaznou poptávku
+
+## Vizuální styl
+
+- **Barevná paleta:**
+  - Primární červená: #E63946
+  - Tmavě modrá: #1D3557
+  - Modrá: #457B9D
+  - Světle modrá: #A8DADC
+  - Jemná bílá: #F1FAEE
+
+- **Typografie:**
+  - Montserrat: Nadpisy (H1, H2, ...)
+  - Open Sans: Podnadpisy, zvýrazněné texty
+  - Roboto: Běžný odstavcový text
+
+## Spuštění projektu
 
 ```bash
+# Instalace závislostí
+npm install
+
+# Spuštění vývojového serveru
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Po spuštění otevřete [http://localhost:3000](http://localhost:3000) ve svém prohlížeči.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Kontakt
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Máte-li jakékoliv dotazy, neváhejte nás kontaktovat.

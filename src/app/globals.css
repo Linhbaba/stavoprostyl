@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;700&family=Roboto:wght@400;500&display=swap');
+
+@import "tailwindcss";
+
+/* Explicitní definice barev jako CSS proměnných */
+:root {
+  --color-primary-red: #E63946;
+  --color-primary-red-dark: #d5303c;
+  --color-dark-blue: #1D3557;
+  --color-blue: #457B9D;
+  --color-light-blue: #A8DADC;
+  --color-soft-white: #F1FAEE;
+}
+
+/* === KOMPLETNÍ SADA VLASTNÍCH CSS TŘÍD PRO BARVY === */
+
+/* Background barvy */
+.bg-primary-red {
+  background-color: var(--color-primary-red);
+}
+.bg-primary-red-dark {
+  background-color: var(--color-primary-red-dark);
+}
+.bg-dark-blue {
+  background-color: var(--color-dark-blue);
+}
+.bg-blue {
+  background-color: var(--color-blue);
+}
+.bg-light-blue {
+  background-color: var(--color-light-blue);
+}
+.bg-soft-white {
+  background-color: var(--color-soft-white);
+}
+
+/* Text barvy */
+.text-primary-red {
+  color: var(--color-primary-red);
+}
+.text-primary-red-dark {
+  color: var(--color-primary-red-dark);
+}
+.text-dark-blue {
+  color: var(--color-dark-blue);
+}
+.text-blue {
+  color: var(--color-blue);
+}
+.text-light-blue {
+  color: var(--color-light-blue);
+}
+.text-soft-white {
+  color: var(--color-soft-white);
+}
+
+/* Border barvy */
+.border-primary-red {
+  border-color: var(--color-primary-red);
+}
+.border-primary-red-dark {
+  border-color: var(--color-primary-red-dark);
+}
+.border-dark-blue {
+  border-color: var(--color-dark-blue);
+}
+.border-blue {
+  border-color: var(--color-blue);
+}
+.border-light-blue {
+  border-color: var(--color-light-blue);
+}
+.border-soft-white {
+  border-color: var(--color-soft-white);
+}
+
+/* Fill barvy pro SVG */
+.fill-primary-red {
+  fill: var(--color-primary-red);
+}
+.fill-primary-red-dark {
+  fill: var(--color-primary-red-dark);
+}
+.fill-dark-blue {
+  fill: var(--color-dark-blue);
+}
+.fill-blue {
+  fill: var(--color-blue);
+}
+.fill-light-blue {
+  fill: var(--color-light-blue);
+}
+.fill-soft-white {
+  fill: var(--color-soft-white);
+}
+
+/* Hover varianty pro background */
+.hover\:bg-primary-red:hover {
+  background-color: var(--color-primary-red);
+}
+.hover\:bg-primary-red-dark:hover {
+  background-color: var(--color-primary-red-dark);
+}
+.hover\:bg-dark-blue:hover {
+  background-color: var(--color-dark-blue);
+}
+.hover\:bg-blue:hover {
+  background-color: var(--color-blue);
+}
+.hover\:bg-blue\/90:hover {
+  background-color: color-mix(in oklab, var(--color-blue) 90%, transparent);
+}
+.hover\:bg-light-blue:hover {
+  background-color: var(--color-light-blue);
+}
+.hover\:bg-soft-white:hover {
+  background-color: var(--color-soft-white);
+}
+
+/* Hover varianty pro text */
+.hover\:text-primary-red:hover {
+  color: var(--color-primary-red);
+}
+.hover\:text-primary-red-dark:hover {
+  color: var(--color-primary-red-dark);
+}
+.hover\:text-dark-blue:hover {
+  color: var(--color-dark-blue);
+}
+.hover\:text-blue:hover {
+  color: var(--color-blue);
+}
+.hover\:text-light-blue:hover {
+  color: var(--color-light-blue);
+}
+.hover\:text-soft-white:hover {
+  color: var(--color-soft-white);
+}
+.hover\:text-white:hover {
+  color: #ffffff;
+}
+
+/* Třídy s průhledností */
+.bg-primary-red\/50 {
+  background-color: color-mix(in oklab, var(--color-primary-red) 50%, transparent);
+}
+.bg-blue\/50 {
+  background-color: color-mix(in oklab, var(--color-blue) 50%, transparent);
+}
+.bg-dark-blue\/50 {
+  background-color: color-mix(in oklab, var(--color-dark-blue) 50%, transparent);
+}
+.bg-light-blue\/50 {
+  background-color: color-mix(in oklab, var(--color-light-blue) 50%, transparent);
+}
+
+.text-primary-red\/50 {
+  color: color-mix(in oklab, var(--color-primary-red) 50%, transparent);
+}
+.text-blue\/50 {
+  color: color-mix(in oklab, var(--color-blue) 50%, transparent);
+}
+.text-dark-blue\/50 {
+  color: color-mix(in oklab, var(--color-dark-blue) 50%, transparent);
+}
+.text-light-blue\/50 {
+  color: color-mix(in oklab, var(--color-light-blue) 50%, transparent);
+}
+
+/* Ring barvy */
+.ring-primary-red {
+  --tw-ring-color: var(--color-primary-red);
+}
+.ring-blue {
+  --tw-ring-color: var(--color-blue);
+}
+.ring-dark-blue {
+  --tw-ring-color: var(--color-dark-blue);
+}
+
+/* Focus varianty */
+.focus\:border-primary-red:focus {
+  border-color: var(--color-primary-red);
+}
+.focus\:border-blue:focus {
+  border-color: var(--color-blue);
+}
+.focus\:ring-primary-red:focus {
+  --tw-ring-color: var(--color-primary-red);
+}
+.focus\:ring-blue:focus {
+  --tw-ring-color: var(--color-blue);
+}
+
+/* Základní styly */
+body {
+  /* Rules moved to layout.tsx */
+  /* Ensure smooth font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  /* Heading font will be applied via Tailwind config or component classes */
+}
+
+/* You can add more global styles here if necessary */

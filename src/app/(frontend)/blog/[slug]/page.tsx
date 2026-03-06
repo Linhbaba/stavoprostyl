@@ -61,17 +61,17 @@ export default async function BlogDetailPage({ params }: Props) {
         </h1>
 
         <div className="flex items-center gap-4 text-sm text-dark-blue/60 mb-8">
-          {post.publishedAt && (
-            <time>{new Date(post.publishedAt as string).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
+          {typeof post.publishedAt === 'string' && (
+            <time>{new Date(post.publishedAt).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
           )}
-          {author?.name && <span>· {author.name as string}</span>}
+          {typeof author?.name === 'string' && <span>· {author.name}</span>}
         </div>
 
-        {img?.url && (
+        {typeof img?.url === 'string' && (
           <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-10">
             <Image
-              src={img.url as string}
-              alt={(img.alt as string) || (post.title as string)}
+              src={img.url}
+              alt={(typeof img.alt === 'string' ? img.alt : String(post.title)) || 'Obrázek'}
               fill
               sizes="100vw"
               className="object-cover"
@@ -81,7 +81,7 @@ export default async function BlogDetailPage({ params }: Props) {
         )}
 
         <div className="prose prose-lg max-w-none prose-headings:font-heading prose-headings:text-dark-blue prose-a:text-blue">
-          {post.content ? <RichText data={post.content} /> : <p className="text-dark-blue/70">Obsah se připravuje...</p>}
+          {post.content ? <RichText data={post.content as Parameters<typeof RichText>[0]['data']} /> : <p className="text-dark-blue/70">Obsah se připravuje...</p>}
         </div>
       </div>
     </article>

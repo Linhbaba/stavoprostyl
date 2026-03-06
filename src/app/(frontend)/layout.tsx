@@ -8,10 +8,12 @@ export default function FrontendLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="font-sans bg-soft-white text-dark-blue min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-grow">{children}</main>
-      <Footer />
-    </div>
+    <html lang="cs">
+      <body className="font-sans bg-soft-white text-dark-blue min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Footer />
+      </body>
+    </html>
   );
 }

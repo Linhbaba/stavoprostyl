@@ -28,25 +28,21 @@ export function HeroSection({ slides: propSlides }: HeroSectionProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const startInterval = () => {
-    intervalRef.current = setInterval(() => {
+  useEffect(() => {
+    const id = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % slides.length);
     }, SLIDE_INTERVAL);
-  };
-
-  const resetInterval = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    startInterval();
-  };
-
-  useEffect(() => {
-    startInterval();
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
-  }, []);
+    intervalRef.current = id;
+    return () => clearInterval(id);
+  }, [slides.length]);
 
   const goToSlide = (index: number) => {
     setActiveIndex(index);
-    resetInterval();
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    const id = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % slides.length);
+    }, SLIDE_INTERVAL);
+    intervalRef.current = id;
   };
 
   return (

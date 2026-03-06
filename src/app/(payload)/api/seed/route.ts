@@ -88,7 +88,7 @@ export async function POST() {
     const aboutImgId = uploaded['about.jpg'];
 
     await payload.updateGlobal({
-      slug: 'homepage' as 'homepage',
+      slug: 'homepage' as const,
       data: {
         hero: {
           slides: [
@@ -171,7 +171,7 @@ export async function POST() {
     }
 
     await payload.updateGlobal({
-      slug: 'homepage' as 'homepage',
+      slug: 'homepage' as const,
       data: {
         references: {
           heading: 'Naše reference',

@@ -37,7 +37,7 @@ export default async function Home() {
 
   try {
     const payload = await getPayloadClient();
-    const hp = await payload.findGlobal({ slug: 'homepage' as 'homepage', depth: 2 });
+    const hp = await payload.findGlobal({ slug: 'homepage' as const, depth: 2 });
 
     if (hp) {
       const h = hp as Record<string, unknown>;

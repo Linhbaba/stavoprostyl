@@ -68,16 +68,16 @@ export default async function ProjectDetailPage({ params }: Props) {
         </h1>
 
         <div className="flex flex-wrap items-center gap-4 text-sm text-dark-blue/60 mb-8">
-          {project.category && <span className="bg-blue/10 text-blue px-3 py-1 rounded-full font-medium">{categoryLabels[project.category as string] || project.category}</span>}
-          {project.year && <span>{project.year as number}</span>}
-          {project.location && <span>· {project.location as string}</span>}
+          {typeof project.category === 'string' && <span className="bg-blue/10 text-blue px-3 py-1 rounded-full font-medium">{categoryLabels[project.category] || project.category}</span>}
+          {typeof project.year === 'number' && <span>{project.year}</span>}
+          {typeof project.location === 'string' && <span>· {project.location}</span>}
         </div>
 
-        {img?.url && (
+        {typeof img?.url === 'string' && (
           <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-10">
             <Image
-              src={img.url as string}
-              alt={(img.alt as string) || (project.title as string)}
+              src={img.url}
+              alt={(typeof img.alt === 'string' ? img.alt : String(project.title)) || 'Obrázek'}
               fill
               sizes="100vw"
               className="object-cover"
@@ -86,9 +86,9 @@ export default async function ProjectDetailPage({ params }: Props) {
           </div>
         )}
 
-        {project.description && (
+        {project.description != null && (
           <div className="prose prose-lg max-w-none prose-headings:font-heading prose-headings:text-dark-blue prose-a:text-blue mb-12">
-            <RichText data={project.description} />
+            <RichText data={project.description as Parameters<typeof RichText>[0]['data']} />
           </div>
         )}
 
@@ -98,19 +98,19 @@ export default async function ProjectDetailPage({ params }: Props) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {gallery.map((item, i) => {
                 const galImg = item.image as Record<string, unknown> | undefined;
-                if (!galImg?.url) return null;
+                if (typeof galImg?.url !== 'string') return null;
                 return (
                   <div key={i} className="relative aspect-[4/3] rounded-lg overflow-hidden">
                     <Image
-                      src={galImg.url as string}
-                      alt={(galImg.alt as string) || (item.caption as string) || `Galerie ${i + 1}`}
+                      src={galImg.url}
+                      alt={(typeof galImg.alt === 'string' ? galImg.alt : typeof item.caption === 'string' ? item.caption : null) || `Galerie ${i + 1}`}
                       fill
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                       className="object-cover hover:scale-105 transition-transform duration-300"
                     />
-                    {item.caption && (
+                    {typeof item.caption === 'string' && (
                       <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-3">
-                        <p className="text-white text-sm">{item.caption as string}</p>
+                        <p className="text-white text-sm">{item.caption}</p>
                       </div>
                     )}
                   </div>

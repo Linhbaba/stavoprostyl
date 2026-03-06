@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start -p 3013",
     "lint": "next lint",
-    "payload": "payload"
+    "payload": "payload",
+    "seed": "curl -X POST http://localhost:3013/api/seed"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.79.0",
@@ -15,6 +16,7 @@
     "@payloadcms/richtext-lexical": "^3.79.0",
     "@payloadcms/storage-s3": "^3.79.0",
     "clsx": "^2.1.1",
+    "dotenv": "^17.3.1",
     "graphql": "^16.11.0",
     "next": "15.4.11",
     "payload": "^3.79.0",
@@ -32,6 +34,7 @@
     "eslint": "^9.28.0",
     "eslint-config-next": "15.4.11",
     "tailwindcss": "^4.2.1",
+    "tsx": "^4.19.4",
     "typescript": "^5.9.3"
   }
 }

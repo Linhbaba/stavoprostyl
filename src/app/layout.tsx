@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Stavopro Styl",
@@ -12,10 +11,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="cs">
-      <body className="font-sans bg-soft-white text-dark-blue min-h-screen flex flex-col">
-        {children}
-      </body>
+    <html lang="cs" suppressHydrationWarning>
+      <body>{children}</body>
     </html>
   );
 }

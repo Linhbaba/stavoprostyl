@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
 import fs from 'fs';
 import { getPayload } from 'payload';
@@ -32,9 +32,11 @@ const mediaFiles: MediaFile[] = [
   { filename: 'partners/logo6.svg', alt: 'Partner 6' },
 ];
 
-export async function POST() {
-  if (process.env.NODE_ENV === 'production') {
-    return NextResponse.json({ error: 'Seed disabled in production' }, { status: 403 });
+export async function POST(req: NextRequest) {
+  const token = req.nextUrl.searchParams.get('token');
+  const secret = process.env.PAYLOAD_SECRET || 'dev-secret';
+  if (token !== secret) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -42,6 +44,27 @@ export async function POST() {
     const log: string[] = [];
     const uploaded: Record<string, number> = {};
 
+    // Create admin user if none exists
+    const existingUsers = await payload.find({ collection: 'users', limit: 1 });
+    let adminId: number | undefined;
+    if (existingUsers.docs.length === 0) {
+      const admin = await payload.create({
+        collection: 'users',
+        data: {
+          email: 'admin@stavoprostyl.cz',
+          password: 'admin123',
+          name: 'Admin',
+          role: 'admin',
+        },
+      });
+      adminId = admin.id as number;
+      log.push(`Created admin user (id: ${adminId})`);
+    } else {
+      adminId = existingUsers.docs[0].id as number;
+      log.push(`Admin user exists (id: ${adminId})`);
+    }
+
+    // Upload media
     for (const file of mediaFiles) {
       const filePath = path.resolve(MEDIA_DIR, file.filename);
       if (!fs.existsSync(filePath)) {
@@ -135,9 +158,69 @@ export async function POST() {
 
     // Seed reference projects
     const refProjects = [
-      { title: 'Rodinný dům Kolovraty', slug: 'rodinny-dum-kolovraty', category: 'vystavba' as const, year: 2022, image: uploaded['reference1.jpg'] },
-      { title: 'Rekonstrukce bytu Vinohrady', slug: 'rekonstrukce-bytu-vinohrady', category: 'rekonstrukce' as const, year: 2021, image: uploaded['reference2.jpg'] },
-      { title: 'Administrativní budova Karlín', slug: 'administrativni-budova-karlin', category: 'navrh' as const, year: 2023, image: uploaded['reference3.jpg'] },
+      {
+        title: 'Rodinný dům Kolovraty',
+        slug: 'rodinny-dum-kolovraty',
+        category: 'vystavba' as const,
+        year: 2022,
+        location: 'Praha - Kolovraty',
+        image: uploaded['reference1.jpg'],
+        description: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'paragraph', children: [{ type: 'text', text: 'Kompletní výstavba moderního rodinného domu v klidné lokalitě Prahy - Kolovrat. Projekt zahrnoval vše od základové desky po finální terénní úpravy. Dům o užitné ploše 180 m² nabízí 5+kk s prostornou garáží a zahradou.' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Realizace proběhla v období duben 2021 – červen 2022. Stavba byla dokončena v termínu a v rámci rozpočtu.' }], version: 1 },
+            ],
+            direction: null,
+            format: '',
+            indent: 0,
+            version: 1,
+          },
+        },
+      },
+      {
+        title: 'Rekonstrukce bytu Vinohrady',
+        slug: 'rekonstrukce-bytu-vinohrady',
+        category: 'rekonstrukce' as const,
+        year: 2021,
+        location: 'Praha 2 - Vinohrady',
+        image: uploaded['reference2.jpg'],
+        description: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'paragraph', children: [{ type: 'text', text: 'Kompletní rekonstrukce bytu 3+1 v historickém činžovním domě na Vinohradech. Projekt zahrnoval nové rozvody elektřiny a vody, moderní koupelnu, novou kuchyňskou linku a renovaci původních parket.' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Zvláštní důraz byl kladen na zachování historických prvků – štuky, kazetové dveře a původní kliky byly citlivě restaurovány.' }], version: 1 },
+            ],
+            direction: null,
+            format: '',
+            indent: 0,
+            version: 1,
+          },
+        },
+      },
+      {
+        title: 'Administrativní budova Karlín',
+        slug: 'administrativni-budova-karlin',
+        category: 'navrh' as const,
+        year: 2023,
+        location: 'Praha 8 - Karlín',
+        image: uploaded['reference3.jpg'],
+        description: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'paragraph', children: [{ type: 'text', text: 'Architektonický návrh a realizace fit-outu administrativní budovy v dynamicky se rozvíjející čtvrti Karlín. Projekt zahrnoval kompletní interiérový design open-space kanceláří, jednacích místností a odpočinkových zón.' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Celková plocha 1 200 m² pro 150 zaměstnanců. Důraz na ergonomii, akustiku a udržitelnost.' }], version: 1 },
+            ],
+            direction: null,
+            format: '',
+            indent: 0,
+            version: 1,
+          },
+        },
+      },
     ];
 
     const projectIds: number[] = [];
@@ -162,6 +245,8 @@ export async function POST() {
           slug: proj.slug,
           category: proj.category,
           year: proj.year,
+          location: proj.location,
+          description: proj.description,
           featuredImage: proj.image,
           status: 'published',
         },
@@ -181,6 +266,111 @@ export async function POST() {
       } as Record<string, unknown>,
     });
     log.push('References linked to homepage');
+
+    // Seed blog posts
+    const blogPosts = [
+      {
+        title: 'Jak vybrat správnou stavební firmu',
+        slug: 'jak-vybrat-spravnou-stavebni-firmu',
+        excerpt: 'Výběr stavební firmy je jedním z nejdůležitějších rozhodnutí při stavbě nebo rekonstrukci. Přečtěte si, na co si dát pozor.',
+        publishedAt: '2025-11-15',
+        image: uploaded['hero.jpg'],
+        content: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'paragraph', children: [{ type: 'text', text: 'Výběr správné stavební firmy může být rozdílem mezi úspěšným projektem a noční můrou. V tomto článku vám poradíme, na co se zaměřit a jak postupovat.' }], version: 1 },
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: '1. Zkontrolujte reference' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Kvalitní firma se nebojí ukázat své dokončené projekty. Požádejte o kontakty na předchozí zákazníky a ideálně si realizace prohlédněte osobně.' }], version: 1 },
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: '2. Ověřte pojištění a certifikace' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Každá seriózní stavební firma by měla mít platné pojištění odpovědnosti za škody a příslušné živnostenské oprávnění.' }], version: 1 },
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: '3. Detailní rozpočet a smlouva' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Trvejte na podrobném rozpočtu s rozpisem jednotlivých položek. Kvalitní smlouva o dílo je základem úspěšné spolupráce.' }], version: 1 },
+            ],
+            direction: null,
+            format: '',
+            indent: 0,
+            version: 1,
+          },
+        },
+      },
+      {
+        title: 'Trendy ve stavebnictví pro rok 2026',
+        slug: 'trendy-ve-stavebnictvi-2026',
+        excerpt: 'Jaké materiály a technologie budou dominovat stavebnictví v nadcházejícím roce? Přinášíme přehled nejdůležitějších trendů.',
+        publishedAt: '2026-01-20',
+        image: uploaded['rekonstrukce.jpg'],
+        content: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'paragraph', children: [{ type: 'text', text: 'Stavebnictví se neustále vyvíjí a rok 2026 přinese několik zajímavých trendů, které ovlivní jak se staví a rekonstruuje.' }], version: 1 },
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Udržitelné materiály' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Stále více stavebníků volí ekologické materiály – recyklované cihly, dřevostavby s certifikací FSC a izolace z přírodních materiálů jako konopí či ovčí vlna.' }], version: 1 },
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Chytré domácnosti' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Integrace IoT technologií do staveb se stává standardem. Automatizované vytápění, osvětlení a zabezpečení šetří energii a zvyšují komfort bydlení.' }], version: 1 },
+            ],
+            direction: null,
+            format: '',
+            indent: 0,
+            version: 1,
+          },
+        },
+      },
+      {
+        title: 'Rekonstrukce koupelny krok za krokem',
+        slug: 'rekonstrukce-koupelny-krok-za-krokem',
+        excerpt: 'Plánujete rekonstrukci koupelny? Připravili jsme pro vás kompletní průvodce od demolice po finální úklid.',
+        publishedAt: '2026-02-28',
+        image: uploaded['renovace.jpg'],
+        content: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'paragraph', children: [{ type: 'text', text: 'Rekonstrukce koupelny patří mezi nejčastější stavební úpravy v domácnostech. Správný postup a plánování jsou klíčem k úspěchu.' }], version: 1 },
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Fáze 1: Plánování a návrh' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Před zahájením prací si důkladně promyslete dispozici, volbu materiálů a rozpočet. Doporučujeme konzultaci s odborníkem na interiérový design.' }], version: 1 },
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Fáze 2: Demolice a příprava' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Odstranění starých obkladů, sanitární keramiky a rozvodů. V této fázi se odhalí skutečný stav podkladu a případné skryté závady.' }], version: 1 },
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Fáze 3: Nové rozvody a hydroizolace' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Instalace nových rozvodů vody, odpadu a elektřiny. Hydroizolace je kritickým krokem – špatná izolace znamená problémy s vlhkostí na roky dopředu.' }], version: 1 },
+            ],
+            direction: null,
+            format: '',
+            indent: 0,
+            version: 1,
+          },
+        },
+      },
+    ];
+
+    for (const post of blogPosts) {
+      const existing = await payload.find({
+        collection: 'posts',
+        where: { slug: { equals: post.slug } },
+        limit: 1,
+      });
+
+      if (existing.docs.length > 0) {
+        log.push(`Post exists: ${post.title}`);
+        continue;
+      }
+
+      const doc = await payload.create({
+        collection: 'posts',
+        data: {
+          title: post.title,
+          slug: post.slug,
+          excerpt: post.excerpt,
+          featuredImage: post.image,
+          content: post.content,
+          author: adminId,
+          publishedAt: post.publishedAt,
+          status: 'published',
+        },
+      });
+      log.push(`Created post: ${post.title} (id: ${doc.id})`);
+    }
 
     return NextResponse.json({ success: true, log });
   } catch (error) {

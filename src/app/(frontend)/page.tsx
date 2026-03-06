@@ -12,6 +12,8 @@ import type { ReferenceProject } from '@/components/home/references-section';
 import type { PartnerItem } from '@/components/home/partners-section';
 import type { CtaData } from '@/components/home/cta-section';
 
+export const dynamic = 'force-dynamic';
+
 function mediaUrl(media: unknown): string {
   if (!media || typeof media !== 'object') return '';
   const m = media as Record<string, unknown>;

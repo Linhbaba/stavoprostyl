@@ -2,6 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getPayloadClient } from '@/lib/payload';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Blog | Stavopro Styl',
   description: 'Aktuality a články ze světa stavebnictví.',

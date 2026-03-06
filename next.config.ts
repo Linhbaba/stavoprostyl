@@ -1,16 +1,8 @@
-import type { NextConfig } from "next";
+import { withPayload } from '@payloadcms/next/withPayload'
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // images: { // Remove image configuration as we use local images now
-  //   remotePatterns: [
-  //     {
-  //       protocol: 'https',
-  //       hostname: 'placekitten.com',
-  //       port: '',
-  //       pathname: '/**',
-  //     },
-  //   ],
-  // },
-};
+  output: 'standalone',
+}
 
-export default nextConfig;
+export default withPayload(nextConfig)

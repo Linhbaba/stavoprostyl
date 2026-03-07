@@ -267,8 +267,26 @@ export async function POST(req: NextRequest) {
     });
     log.push('References linked to homepage');
 
-    // Seed blog posts (REMOVED)
-    // const blogPosts = [ ... ];
+    // Seed Footer global
+    await payload.updateGlobal({
+      slug: 'footer' as any,
+      data: {
+        companyDescription: 'Stavební firma zaměřená na kvalitu, inovace a spokojenost zákazníků. Již více než 15 let realizujeme vaše stavební projekty.',
+        contact: {
+          companyName: 'Stavopro Styl s.r.o.',
+          street: 'Stavební 1234/5',
+          city: '123 45 Praha',
+          phone: '+420 777 888 999',
+          email: 'info@stavoprostyl.cz',
+        },
+        disclaimer: {
+          copyright: 'Stavopro Styl s.r.o. Všechna práva vyhrazena.',
+          ic: '12345678',
+          dic: 'CZ12345678',
+        },
+      },
+    });
+    log.push('Footer global seeded');
 
     // Seed generic pages (O nás, Cookies, atd.)
     const genericPages = [

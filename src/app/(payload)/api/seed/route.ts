@@ -269,7 +269,7 @@ export async function POST(req: NextRequest) {
 
     // Seed Footer global
     await payload.updateGlobal({
-      slug: 'footer' as any,
+      slug: 'footer' as const,
       data: {
         companyDescription: 'Stavební firma zaměřená na kvalitu, inovace a spokojenost zákazníků. Již více než 15 let realizujeme vaše stavební projekty.',
         contact: {

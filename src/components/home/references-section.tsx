@@ -25,8 +25,6 @@ const fallbackProjects: ReferenceProject[] = [
 ];
 
 export function ReferencesSection({ heading, subtitle, projects: propProjects }: ReferencesSectionProps) {
-  const h = heading || 'Naše reference';
-  const sub = subtitle || 'Přesvědčte se o kvalitě naší práce.';
   const projects = propProjects?.length ? propProjects : fallbackProjects;
   
   const mainProject = projects[0];

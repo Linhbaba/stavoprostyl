@@ -5,7 +5,6 @@ import { ServicesSection } from '@/components/home/services-section';
 import { ReferencesSection } from '@/components/home/references-section';
 import { PartnersSection } from '@/components/home/partners-section';
 import { CtaSection } from '@/components/home/cta-section';
-import { BlogSection } from '@/components/home/blog-section';
 import type { HeroSlide } from '@/components/home/hero-section';
 import type { AboutData } from '@/components/home/about-section';
 import type { ServicesData, ServiceItem } from '@/components/home/services-section';
@@ -136,9 +135,8 @@ export default async function Home() {
   }
 
   return (
-    <main>
+    <main className="-mt-24">
       <HeroSection slides={heroSlides} />
-      <BlogSection />
       <ServicesSection data={servicesData} />
       <ReferencesSection heading={refHeading} subtitle={refSubtitle} projects={referenceProjects} />
       <AboutSection data={aboutData} />

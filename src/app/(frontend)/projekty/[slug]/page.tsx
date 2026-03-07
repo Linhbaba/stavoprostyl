@@ -74,7 +74,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         </div>
 
         {typeof img?.url === 'string' && (
-          <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-10">
+          <div className="relative w-full aspect-video overflow-hidden mb-10 shadow-lg">
             <Image
               src={img.url}
               alt={(typeof img.alt === 'string' ? img.alt : String(project.title)) || 'Obrázek'}
@@ -100,7 +100,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 const galImg = item.image as Record<string, unknown> | undefined;
                 if (typeof galImg?.url !== 'string') return null;
                 return (
-                  <div key={i} className="relative aspect-[4/3] rounded-lg overflow-hidden">
+                  <div key={i} className="relative aspect-[4/3] overflow-hidden shadow-md">
                     <Image
                       src={galImg.url}
                       alt={(typeof galImg.alt === 'string' ? galImg.alt : typeof item.caption === 'string' ? item.caption : null) || `Galerie ${i + 1}`}

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1250" height="220" viewBox="0 0 1250 220" fill="none">
+  <rect width="1250" height="220" fill="transparent"/>
+  <g transform="translate(10,10)">
+    <!-- icon -->
+    <g transform="translate(0,18)">
+      <polygon points="0,90 38,90 38,42 0,58" fill="#FFFFFF"/>
+      <polygon points="46,90 99,90 99,10 46,32" fill="#FFFFFF"/>
+      <polygon points="11,82 30,82 30,51 11,59" fill="white" opacity="0.95"/>
+      <polygon points="64,78 87,78 87,25 64,35" fill="white" opacity="0.95"/>
+      <polygon points="30,90 76,90 105,58 88,50" fill="#F28C18"/>
+      <polygon points="74,90 122,90 99,62" fill="#FFFFFF"/>
+    </g>
+
+    <!-- wordmark -->
+    <g transform="translate(150,0)">
+      <text x="0" y="118" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="92" letter-spacing="-2" fill="#FFFFFF">STAVO</text>
+      <text x="320" y="118" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="92" letter-spacing="-2" fill="#F28C18">PROSTYL</text>
+      <rect x="0" y="145" width="320" height="5" fill="#FFFFFF"/>
+      <rect x="320" y="145" width="447" height="5" fill="#F28C18"/>
+    </g>
+  </g>
+</svg>

@@ -60,9 +60,9 @@ export default async function ProjektyPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project) => (
-              <Link key={project.slug} href={`/projekty/${project.slug}`} className="group block overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-lg">
+              <Link key={project.slug} href={`/projekty/${project.slug}`} className="group block overflow-hidden bg-white shadow-md transition-all duration-300 hover:shadow-lg">
                 {project.featuredImage && (
-                  <div className="relative h-56 w-full overflow-hidden">
+                  <div className="relative h-64 w-full overflow-hidden">
                     <Image
                       src={project.featuredImage.url}
                       alt={project.featuredImage.alt || project.title}
@@ -75,11 +75,11 @@ export default async function ProjektyPage() {
                 <div className="p-6">
                   <div className="flex items-center gap-2 mb-2">
                     {project.category && (
-                      <span className="text-sm font-medium text-blue">{categoryLabels[project.category] || project.category}</span>
+                      <span className="text-xs font-bold uppercase tracking-wider text-blue">{categoryLabels[project.category] || project.category}</span>
                     )}
-                    {project.year && <span className="text-sm text-dark-blue/50">· {project.year}</span>}
+                    {project.year && <span className="text-xs font-bold uppercase tracking-wider text-dark-blue/50">· {project.year}</span>}
                   </div>
-                  <h2 className="text-xl font-bold text-dark-blue group-hover:text-primary-red transition-colors">{project.title}</h2>
+                  <h2 className="text-xl font-bold font-heading text-dark-blue group-hover:text-primary-red transition-colors">{project.title}</h2>
                 </div>
               </Link>
             ))}

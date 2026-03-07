@@ -9,7 +9,6 @@ import { migrations } from './migrations'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
 import { Homepage } from './globals/Homepage'
 
@@ -24,7 +23,7 @@ export default buildConfig({
     },
   },
   editor: lexicalEditor(),
-  collections: [Users, Media, Pages, Posts, Projects],
+  collections: [Users, Media, Pages, Projects],
   globals: [Homepage],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

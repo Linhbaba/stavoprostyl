@@ -24,10 +24,10 @@ interface ServicesSectionProps {
 }
 
 const fallbackItems: ServiceItem[] = [
-  { title: 'Výstavba na klíč', description: 'Kompletní realizace staveb od projektu až po předání klíčů. Od první konzultace až po kolaudaci jsme s vámi. Naše zkušenosti zaručují hladký průběh a dodržení termínů.', image: { url: '/api/media/file/vystavby_na_klic.webp' }, link: '/sluzby/vystavba-na-klic', accentColor: 'primary-red' },
-  { title: 'Rekonstrukce a renovace', description: 'Oživíme Váš domov. Provádíme rekonstrukce bytů, domů i komerčních prostor. Klademe důraz na detail a moderní materiály.', image: { url: '/api/media/file/rekonstrukce.webp' }, link: '/sluzby/rekonstrukce', accentColor: 'blue' },
-  { title: 'Architektonické návrhy', description: 'Projektová dokumentace a architektonická řešení na míru vašim představám. Náš tým architektů navrhne prostor, který bude funkční i estetický.', image: { url: '/api/media/file/renovace.webp' }, link: '/sluzby/architektonicke-navrhy', accentColor: 'blue' },
-  { title: 'Poradenství a dozor', description: 'Odborné konzultace a stavební dozor pro hladký průběh každé stavby. Zastoupíme vás při jednání s úřady a ohlídáme kvalitu práce dodavatelů.', image: { url: '/api/media/file/poradenstvi.webp' }, link: '/sluzby/poradenstvi', accentColor: 'blue' },
+  { title: 'Výstavba na klíč', description: 'Kompletní realizace staveb od projektu až po předání klíčů. Od první konzultace až po kolaudaci jsme s vámi. Naše zkušenosti zaručují hladký průběh a dodržení termínů.', image: { url: '/api/media/file/vystavby_na_klic.webp' }, link: '/vystavba-na-klic', accentColor: 'primary-red' },
+  { title: 'Rekonstrukce a renovace', description: 'Oživíme Váš domov. Provádíme rekonstrukce bytů, domů i komerčních prostor. Klademe důraz na detail a moderní materiály.', image: { url: '/api/media/file/rekonstrukce.webp' }, link: '/rekonstrukce', accentColor: 'blue' },
+  { title: 'Architektonické návrhy', description: 'Projektová dokumentace a architektonická řešení na míru vašim představám. Náš tým architektů navrhne prostor, který bude funkční i estetický.', image: { url: '/api/media/file/renovace.webp' }, link: '/architektonicke-navrhy', accentColor: 'blue' },
+  { title: 'Poradenství a dozor', description: 'Odborné konzultace a stavební dozor pro hladký průběh každé stavby. Zastoupíme vás při jednání s úřady a ohlídáme kvalitu práce dodavatelů.', image: { url: '/api/media/file/poradenstvi.webp' }, link: '/poradenstvi', accentColor: 'blue' },
 ];
 
 export function ServicesSection({ data }: ServicesSectionProps) {

@@ -131,10 +131,10 @@ export async function POST(req: NextRequest) {
           heading: 'Naše služby',
           subtitle: 'Komplexní stavební služby pro váš domov i komerční prostory',
           items: [
-            { title: 'Výstavba na klíč', description: 'Kompletní realizace staveb od projektu až po předání klíčů.', image: uploaded['vystavby_na_klic.jpg'], link: '/sluzby/vystavba-na-klic', accentColor: 'primary-red' },
-            { title: 'Rekonstrukce a renovace', description: 'Oživíme Váš domov. Provádíme rekonstrukce bytů, domů i komerčních prostor.', image: uploaded['rekonstrukce.jpg'], link: '/sluzby/rekonstrukce', accentColor: 'blue' },
-            { title: 'Architektonické návrhy', description: 'Projektová dokumentace a architektonická řešení na míru vašim představám.', image: uploaded['renovace.jpg'], link: '/sluzby/architektonicke-navrhy', accentColor: 'blue' },
-            { title: 'Poradenství a dozor', description: 'Odborné konzultace a stavební dozor pro hladký průběh každé stavby.', image: uploaded['poradenstvi.jpg'], link: '/sluzby/poradenstvi', accentColor: 'blue' },
+            { title: 'Výstavba na klíč', description: 'Kompletní realizace staveb od projektu až po předání klíčů.', image: uploaded['vystavby_na_klic.jpg'], link: '/vystavba-na-klic', accentColor: 'primary-red' },
+            { title: 'Rekonstrukce a renovace', description: 'Oživíme Váš domov. Provádíme rekonstrukce bytů, domů i komerčních prostor.', image: uploaded['rekonstrukce.jpg'], link: '/rekonstrukce', accentColor: 'blue' },
+            { title: 'Architektonické návrhy', description: 'Projektová dokumentace a architektonická řešení na míru vašim představám.', image: uploaded['renovace.jpg'], link: '/architektonicke-navrhy', accentColor: 'blue' },
+            { title: 'Poradenství a dozor', description: 'Odborné konzultace a stavební dozor pro hladký průběh každé stavby.', image: uploaded['poradenstvi.jpg'], link: '/poradenstvi', accentColor: 'blue' },
           ],
         },
         partners: {
@@ -370,6 +370,147 @@ export async function POST(req: NextRequest) {
         },
       });
       log.push(`Created post: ${post.title} (id: ${doc.id})`);
+    }
+
+    // Seed generic pages (O nás, Cookies, atd.)
+    const genericPages = [
+      {
+        title: 'O nás',
+        slug: 'o-nas',
+        content: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Stavíme vaše sny na pevných základech' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Stavopro Styl je rodinná stavební firma z Prahy s více než 15 lety zkušeností. Naším cílem je poskytovat komplexní stavební služby na nejvyšší úrovni.' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Zakládáme si na poctivém řemesle, dodržování termínů a maximální spokojenosti zákazníků. Každý projekt je pro nás jedinečný a přistupujeme k němu s maximální péčí.' }], version: 1 },
+            ],
+            direction: null, format: '', indent: 0, version: 1,
+          },
+        },
+      },
+      {
+        title: 'Výstavba na klíč',
+        slug: 'vystavba-na-klic',
+        content: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Kompletní realizace staveb' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Zajistíme kompletní výstavbu vašeho vysněného domu od prvotního návrhu až po předání klíčů. Postaráme se o všechna povolení, materiál i samotnou realizaci.' }], version: 1 },
+            ],
+            direction: null, format: '', indent: 0, version: 1,
+          },
+        },
+      },
+      {
+        title: 'Rekonstrukce',
+        slug: 'rekonstrukce',
+        content: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Oživíme váš domov' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Provádíme kompletní i částečné rekonstrukce bytů, rodinných domů a komerčních prostor. Využíváme moderní materiály a postupy pro dosažení dokonalého výsledku.' }], version: 1 },
+            ],
+            direction: null, format: '', indent: 0, version: 1,
+          },
+        },
+      },
+      {
+        title: 'Architektonické návrhy',
+        slug: 'architektonicke-navrhy',
+        content: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Design, který dává smysl' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Náš tým zkušených architektů pro vás připraví návrh, který bude nejen krásný, ale především funkční a praktický pro každodenní život.' }], version: 1 },
+            ],
+            direction: null, format: '', indent: 0, version: 1,
+          },
+        },
+      },
+      {
+        title: 'Poradenství a dozor',
+        slug: 'poradenstvi',
+        content: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Odborný dohled nad vaší stavbou' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Nabízíme odborné poradenství před začátkem i během stavby. Zajistíme stavební dozor, který ohlídá kvalitu prováděných prací a dodržování technologických postupů.' }], version: 1 },
+            ],
+            direction: null, format: '', indent: 0, version: 1,
+          },
+        },
+      },
+      {
+        title: 'Ochrana osobních údajů',
+        slug: 'zasady-ochrany-osobnich-udaju',
+        content: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Zpracování osobních údajů' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Vaše soukromí je pro nás důležité. Zde najdete informace o tom, jaké údaje shromažďujeme a jak s nimi nakládáme v souladu s GDPR.' }], version: 1 },
+            ],
+            direction: null, format: '', indent: 0, version: 1,
+          },
+        },
+      },
+      {
+        title: 'Obchodní podmínky',
+        slug: 'obchodni-podminky',
+        content: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Všeobecné obchodní podmínky' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Tyto obchodní podmínky upravují vzájemná práva a povinnosti mezi naší společností a zákazníkem.' }], version: 1 },
+            ],
+            direction: null, format: '', indent: 0, version: 1,
+          },
+        },
+      },
+      {
+        title: 'Cookies',
+        slug: 'cookies',
+        content: {
+          root: {
+            type: 'root',
+            children: [
+              { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Zásady používání souborů cookies' }], version: 1 },
+              { type: 'paragraph', children: [{ type: 'text', text: 'Naše webové stránky používají soubory cookies k zajištění správného fungování a analýze návštěvnosti.' }], version: 1 },
+            ],
+            direction: null, format: '', indent: 0, version: 1,
+          },
+        },
+      }
+    ];
+
+    for (const page of genericPages) {
+      const existing = await payload.find({
+        collection: 'pages',
+        where: { slug: { equals: page.slug } },
+        limit: 1,
+      });
+
+      if (existing.docs.length > 0) {
+        log.push(`Page exists: ${page.title}`);
+        continue;
+      }
+
+      const doc = await payload.create({
+        collection: 'pages',
+        data: {
+          title: page.title,
+          slug: page.slug,
+          content: page.content,
+          status: 'published',
+        },
+      });
+      log.push(`Created page: ${page.title} (id: ${doc.id})`);
     }
 
     return NextResponse.json({ success: true, log });

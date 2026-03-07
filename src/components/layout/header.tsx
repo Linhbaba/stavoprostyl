@@ -11,7 +11,6 @@ const navItems = [
   { name: 'O nás', href: '/o-nas' },
   { name: 'Služby', href: '/#sluzby' },
   { name: 'Projekty', href: '/projekty' },
-  { name: 'Blog', href: '/blog' },
   { name: 'Kontakt', href: '/#kontakt' },
 ];
 
@@ -26,24 +25,34 @@ export function Header() {
   };
 
   return (
-    <header className="absolute top-0 left-0 right-0 z-[60] w-full bg-transparent">
+    <header className={clsx(
+      "absolute top-0 left-0 right-0 z-[60] w-full",
+      pathname === '/' ? "bg-transparent" : "bg-white border-b border-gray-200"
+    )}>
       <div className="container mx-auto flex h-24 max-w-screen-desktop items-center px-4 sm:px-6">
         <div className="mr-4 flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Image src="/logo.png" alt="Stavopro Styl Logo" width={75} height={75} className="h-auto w-auto brightness-0 invert" />
+            <Image 
+              src={pathname === '/' ? "/stavoprostyl_light.svg" : "/stavoprostyl_dark.svg"} 
+              alt="Stavopro Styl Logo" 
+              width={250} 
+              height={44} 
+              className="w-48 lg:w-64 h-auto" 
+              priority 
+            />
           </Link>
         </div>
 
         <div className="flex-1" />
 
-        <nav className="hidden md:flex gap-10">
+        <nav className="hidden lg:flex gap-8 xl:gap-10">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={clsx(
-                'text-lg font-medium font-subheading tracking-wide transition-colors hover:text-primary-red',
-                isActive(item.href) ? 'text-primary-red' : 'text-white'
+                'text-base xl:text-lg font-medium font-subheading tracking-wide transition-colors hover:text-primary-red',
+                isActive(item.href) ? 'text-primary-red' : (pathname === '/' ? 'text-white' : 'text-dark-blue')
               )}
             >
               {item.name}
@@ -51,10 +60,13 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center justify-end md:hidden">
+        <div className="flex items-center justify-end lg:hidden">
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="inline-flex items-center justify-center p-2 text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            className={clsx(
+              "inline-flex items-center justify-center p-2 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+              pathname === '/' ? "text-white hover:bg-white/10" : "text-dark-blue hover:bg-black/5"
+            )}
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
           >
@@ -72,7 +84,7 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <nav className="md:hidden border-t border-gray-200 bg-white">
+        <nav className="lg:hidden border-t border-gray-200 bg-white">
           <div className="container mx-auto px-4 py-4 space-y-1">
             {navItems.map((item) => (
               <Link

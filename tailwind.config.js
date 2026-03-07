@@ -32,7 +32,9 @@ const config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 };
 // export default config; // Use module.exports for .js file
 module.exports = config; 

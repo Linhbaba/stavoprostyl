@@ -25,11 +25,11 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-[60] w-full border-b border-gray-200 bg-white">
+    <header className="absolute top-0 left-0 right-0 z-[60] w-full bg-transparent">
       <div className="container mx-auto flex h-24 max-w-screen-desktop items-center px-4 sm:px-6">
         <div className="mr-4 flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Image src="/logo.png" alt="Stavopro Styl Logo" width={75} height={75} className="h-auto w-auto" />
+            <Image src="/logo.png" alt="Stavopro Styl Logo" width={75} height={75} className="h-auto w-auto brightness-0 invert" />
           </Link>
         </div>
 
@@ -42,7 +42,7 @@ export function Header() {
               href={item.href}
               className={clsx(
                 'text-lg font-medium font-subheading tracking-wide transition-colors hover:text-primary-red',
-                isActive(item.href) ? 'text-primary-red' : 'text-dark-blue'
+                isActive(item.href) ? 'text-primary-red' : 'text-white'
               )}
             >
               {item.name}
@@ -53,7 +53,7 @@ export function Header() {
         <div className="flex items-center justify-end md:hidden">
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="inline-flex items-center justify-center rounded-md p-2 text-dark-blue transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            className="inline-flex items-center justify-center rounded-md p-2 text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
           >

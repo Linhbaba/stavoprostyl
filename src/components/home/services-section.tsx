@@ -48,20 +48,20 @@ export function ServicesSection({ data }: ServicesSectionProps) {
 
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
           {/* Left: Tabs Navigation */}
-          <div className="w-full lg:w-1/4 flex flex-col bg-blue overflow-hidden">
+          <div className="w-full lg:w-[30%] flex flex-col bg-blue overflow-hidden">
             {items.map((service, i) => (
               <button
                 key={i}
                 onClick={() => setActiveIndex(i)}
                 className={clsx(
-                  'text-left px-8 py-6 text-lg font-heading font-bold transition-all duration-300 border-l-4',
+                  'text-left px-6 py-6 text-lg font-heading font-bold transition-all duration-300 border-l-4',
                   activeIndex === i 
                     ? 'bg-dark-blue text-white border-primary-red' 
                     : 'text-white/80 border-transparent hover:bg-white/10 hover:text-white'
                 )}
               >
-                <div className="flex items-center justify-between">
-                  <span className="truncate pr-2">{service.title}</span>
+                <div className="flex items-center justify-between gap-4">
+                  <span className="leading-tight">{service.title}</span>
                   <div className="w-5 h-5 flex-shrink-0">
                     {activeIndex === i && (
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -75,7 +75,7 @@ export function ServicesSection({ data }: ServicesSectionProps) {
           </div>
 
           {/* Middle: Content */}
-          <div className="w-full lg:w-1/3 flex flex-col justify-center py-8">
+          <div className="w-full lg:w-[30%] flex flex-col justify-center py-8">
             <div className="text-sm font-bold text-blue uppercase tracking-wider mb-4">Odbornost</div>
             <h3 className="text-3xl font-bold font-heading text-dark-blue mb-6">{activeItem.title}</h3>
             <p className="text-lg text-dark-blue/80 mb-10 leading-relaxed">
@@ -95,7 +95,7 @@ export function ServicesSection({ data }: ServicesSectionProps) {
           </div>
 
           {/* Right: Image */}
-          <div className="w-full lg:w-[41.666%]">
+          <div className="w-full lg:w-[40%]">
             {activeItem.image && (
               <div className="relative w-full aspect-[4/3] lg:aspect-[3/4] overflow-hidden shadow-2xl">
                 <Image

@@ -20,9 +20,9 @@ const config = {
         'soft-white': '#F1FAEE',
       },
       fontFamily: {
-        sans: ["Roboto", "sans-serif"],
-        heading: ["Montserrat", "sans-serif"],
-        subheading: ["Open Sans", "sans-serif"],
+        sans: ["Inter", "sans-serif"],
+        heading: ["Barlow", "sans-serif"],
+        subheading: ["Inter", "sans-serif"],
       },
       // screens: { ... },
       // spacing: { ... },

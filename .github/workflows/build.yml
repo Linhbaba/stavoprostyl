@@ -22,7 +22,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: Install dependencies
-      run: npm ci --include=optional
+      run: npm install --no-fund --no-audit
     - name: Build
       run: npm run build
     - name: Lint

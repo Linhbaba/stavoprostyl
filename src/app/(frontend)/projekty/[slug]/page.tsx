@@ -26,7 +26,11 @@ export async function generateMetadata({ params }: Props) {
     });
     const project = result.docs[0] as Record<string, unknown> | undefined;
     if (project) {
-      return { title: `${project.title} | Stavopro Styl` };
+      const meta = project.meta as Record<string, unknown> | undefined;
+      return { 
+        title: (meta?.title as string) || `${project.title} | Stavopro Styl`,
+        description: (meta?.description as string) || undefined,
+      };
     }
   } catch { /* */ }
   return { title: 'Projekt | Stavopro Styl' };

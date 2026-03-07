@@ -19,9 +19,10 @@ export async function generateMetadata({ params }: Props) {
     });
     const page = result.docs[0] as Record<string, unknown> | undefined;
     if (page) {
+      const meta = page.meta as Record<string, unknown> | undefined;
       return { 
-        title: (page.metaTitle as string) || `${page.title} | Stavopro Styl`,
-        description: (page.metaDescription as string) || undefined,
+        title: (meta?.title as string) || `${page.title} | Stavopro Styl`,
+        description: (meta?.description as string) || undefined,
       };
     }
   } catch { /* */ }

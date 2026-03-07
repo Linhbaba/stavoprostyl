@@ -108,5 +108,22 @@ export const Homepage: GlobalConfig = {
         { name: 'subtitle', type: 'text', label: 'Podnadpis' },
       ],
     },
+    {
+      name: 'meta',
+      type: 'group',
+      label: 'SEO',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Meta title',
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Meta description',
+        },
+      ],
+    },
   ],
 }

@@ -95,5 +95,22 @@ export const Projects: CollectionConfig = {
         position: 'sidebar',
       },
     },
+    {
+      name: 'meta',
+      type: 'group',
+      label: 'SEO',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Meta title',
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Meta description',
+        },
+      ],
+    },
   ],
 }

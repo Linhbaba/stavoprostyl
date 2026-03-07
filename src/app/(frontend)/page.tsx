@@ -14,6 +14,25 @@ import type { CtaData } from '@/components/home/cta-section';
 
 export const dynamic = 'force-dynamic';
 
+export async function generateMetadata() {
+  try {
+    const payload = await getPayloadClient();
+    const hp = await payload.findGlobal({ slug: 'homepage' as const });
+    if (hp) {
+      const h = hp as Record<string, unknown>;
+      const meta = h.meta as Record<string, unknown> | undefined;
+      return {
+        title: (meta?.title as string) || 'Stavopro Styl | Stavební společnost',
+        description: (meta?.description as string) || 'Stavopro Styl - Vaše spolehlivá stavební společnost.',
+      };
+    }
+  } catch { /* */ }
+  return {
+    title: 'Stavopro Styl | Stavební společnost',
+    description: 'Stavopro Styl - Vaše spolehlivá stavební společnost.',
+  };
+}
+
 function mediaUrl(media: unknown): string {
   if (!media || typeof media !== 'object') return '';
   const m = media as Record<string, unknown>;

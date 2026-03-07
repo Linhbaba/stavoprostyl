@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    if: false  # Vypnuto – nasazení řeší Railway
     runs-on: ubuntu-latest
 
     strategy:

@@ -20,8 +20,9 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const isActive = (href: string) => {
-    if (href.startsWith('/#')) return pathname === '/';
-    return pathname === href;
+    if (href === '/') return pathname === '/';
+    if (href.startsWith('/#')) return false;
+    return pathname.startsWith(href);
   };
 
   return (
@@ -53,7 +54,7 @@ export function Header() {
         <div className="flex items-center justify-end md:hidden">
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="inline-flex items-center justify-center rounded-md p-2 text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            className="inline-flex items-center justify-center p-2 text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
           >
@@ -79,7 +80,7 @@ export function Header() {
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
                 className={clsx(
-                  'block rounded-md px-3 py-2 text-lg font-medium font-subheading transition-colors hover:bg-gray-50 hover:text-primary-red',
+                  'block px-3 py-2 text-lg font-medium font-subheading transition-colors hover:bg-gray-50 hover:text-primary-red',
                   isActive(item.href) ? 'text-primary-red bg-gray-50' : 'text-dark-blue'
                 )}
               >

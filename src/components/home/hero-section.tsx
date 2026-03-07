@@ -66,10 +66,10 @@ export function HeroSection({ slides: propSlides }: HeroSectionProps) {
 
             <div className="absolute inset-0 z-10 flex items-center">
               <div className="container mx-auto px-4 sm:px-6 max-w-screen-desktop">
-                <div className="max-w-3xl">
+                <div className="max-w-4xl">
                   <h1
                     className={clsx(
-                      "text-5xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl font-heading transition-all duration-700 ease-out leading-tight",
+                      "text-5xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl font-heading transition-all duration-700 ease-out leading-tight",
                       activeIndex === index ? 'opacity-100 translate-y-0 delay-100' : 'opacity-0 translate-y-8'
                     )}
                   >

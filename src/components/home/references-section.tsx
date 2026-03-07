@@ -40,7 +40,7 @@ export function ReferencesSection({ heading, subtitle, projects: propProjects }:
           {/* Left: Main Project Image */}
           <div className="w-full lg:w-1/2">
             {mainProject && (
-              <Link href={`/projekty/${mainProject.slug}`} className="group block relative w-full aspect-[4/5] rounded-lg overflow-hidden shadow-xl">
+              <Link href={`/projekty/${mainProject.slug}`} className="group block relative w-full aspect-[4/5] overflow-hidden shadow-xl">
                 <Image
                   src={mainProject.image.url}
                   alt={mainProject.image.alt || mainProject.title}
@@ -96,7 +96,7 @@ export function ReferencesSection({ heading, subtitle, projects: propProjects }:
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                   {otherProjects.map((project, i) => (
                     <Link key={i} href={`/projekty/${project.slug}`} className="group block">
-                      <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden mb-4 shadow-md">
+                      <div className="relative w-full aspect-[4/3] overflow-hidden mb-4 shadow-md">
                         <Image
                           src={project.image.url}
                           alt={project.image.alt || project.title}

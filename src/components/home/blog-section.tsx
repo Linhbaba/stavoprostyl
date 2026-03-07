@@ -68,7 +68,7 @@ export async function BlogSection({ heading = 'Aktuality a Blog' }: BlogSectionP
           {/* Main featured post */}
           <div className="w-full lg:w-3/5">
             <Link href={`/blog/${mainPost.slug}`} className="group block h-full">
-              <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden mb-6 shadow-md">
+              <div className="relative w-full aspect-[16/10] overflow-hidden mb-6 shadow-md">
                 {mainPost.image && (
                   <Image
                     src={mainPost.image.url}
@@ -105,7 +105,7 @@ export async function BlogSection({ heading = 'Aktuality a Blog' }: BlogSectionP
           <div className="w-full lg:w-2/5 flex flex-col gap-8">
             {sidePosts.map((post, i) => (
               <Link key={i} href={`/blog/${post.slug}`} className="group flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-6">
-                <div className="relative w-full sm:w-2/5 lg:w-full xl:w-2/5 aspect-[4/3] rounded-lg overflow-hidden flex-shrink-0 shadow-sm">
+                <div className="relative w-full sm:w-2/5 lg:w-full xl:w-2/5 aspect-[4/3] overflow-hidden flex-shrink-0 shadow-sm">
                   {post.image && (
                     <Image
                       src={post.image.url}
@@ -138,7 +138,7 @@ export async function BlogSection({ heading = 'Aktuality a Blog' }: BlogSectionP
         </div>
 
         <div className="mt-12 md:hidden">
-          <Link href="/blog" className="inline-flex items-center justify-center w-full rounded-md px-6 py-4 text-base font-bold font-heading uppercase transition-all duration-200 bg-blue hover:bg-blue/90 text-white">
+          <Link href="/blog" className="inline-flex items-center justify-center w-full px-6 py-4 text-base font-bold font-heading uppercase transition-all duration-200 bg-blue hover:bg-blue/90 text-white">
             Všechny články
           </Link>
         </div>

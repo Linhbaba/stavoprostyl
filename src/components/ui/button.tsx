@@ -12,7 +12,7 @@ interface ButtonProps {
 
 export function Button({ href, children, variant, className }: ButtonProps) {
   const baseStyle =
-    'inline-flex items-center justify-center rounded-md px-6 py-3 text-base font-bold font-heading uppercase transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-red focus-visible:ring-offset-2 focus-visible:ring-offset-black active:scale-95 z-10';
+    'inline-flex items-center justify-center px-6 py-3 text-base font-bold font-heading uppercase transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-red focus-visible:ring-offset-2 focus-visible:ring-offset-black active:scale-95 z-10';
 
   return (
     <Link

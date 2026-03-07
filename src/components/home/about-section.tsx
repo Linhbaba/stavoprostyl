@@ -52,7 +52,7 @@ export function AboutSection({ data }: AboutSectionProps) {
 
           {/* Right: Image */}
           <div className="w-full lg:w-1/2">
-            <div className="relative w-full aspect-[4/3] lg:aspect-[4/3] rounded-lg overflow-hidden shadow-2xl">
+            <div className="relative w-full aspect-[4/3] lg:aspect-[4/3] overflow-hidden shadow-2xl">
               <Image
                 src={imageSrc}
                 alt={imageAlt}

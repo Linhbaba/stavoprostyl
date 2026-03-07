@@ -48,7 +48,7 @@ export function ServicesSection({ data }: ServicesSectionProps) {
 
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
           {/* Left: Tabs Navigation */}
-          <div className="w-full lg:w-1/4 flex flex-col bg-blue rounded-lg overflow-hidden">
+          <div className="w-full lg:w-1/4 flex flex-col bg-blue overflow-hidden">
             {items.map((service, i) => (
               <button
                 key={i}
@@ -61,12 +61,14 @@ export function ServicesSection({ data }: ServicesSectionProps) {
                 )}
               >
                 <div className="flex items-center justify-between">
-                  <span>{service.title}</span>
-                  {activeIndex === i && (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
-                    </svg>
-                  )}
+                  <span className="truncate pr-2">{service.title}</span>
+                  <div className="w-5 h-5 flex-shrink-0">
+                    {activeIndex === i && (
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                      </svg>
+                    )}
+                  </div>
                 </div>
               </button>
             ))}
@@ -95,7 +97,7 @@ export function ServicesSection({ data }: ServicesSectionProps) {
           {/* Right: Image */}
           <div className="w-full lg:w-[41.666%]">
             {activeItem.image && (
-              <div className="relative w-full aspect-[4/3] lg:aspect-[3/4] rounded-lg overflow-hidden shadow-2xl">
+              <div className="relative w-full aspect-[4/3] lg:aspect-[3/4] overflow-hidden shadow-2xl">
                 <Image
                   src={activeItem.image.url}
                   alt={activeItem.image.alt || activeItem.title}

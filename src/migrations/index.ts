@@ -1,5 +1,5 @@
-import * as migration_20250306_initial from './20250306_initial.ts'
-import * as migration_20250307_add_seo_footer from './20250307_add_seo_footer.ts'
+import * as migration_20250306_initial from './20250306_initial'
+import * as migration_20250307_add_seo_footer from './20250307_add_seo_footer'
 
 export const migrations = [
   {

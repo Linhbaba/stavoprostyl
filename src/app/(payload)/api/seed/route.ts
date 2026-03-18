@@ -39,9 +39,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  /** full=1 přepíše homepage, patičku a reference (jen první nasazení / dev). Bez toho jen doplní chybějící stránky, média, projekty. */
+  const fullSeed = req.nextUrl.searchParams.get('full') === '1';
+
   try {
     const payload = await getPayload({ config: configPromise });
     const log: string[] = [];
+    if (!fullSeed) {
+      log.push('Bezpečný režim (bez full=1): patička a hlavní stránka se nemění. Pro kompletní reset přidej &full=1');
+    }
     const uploaded: Record<string, number> = {};
 
     // Create admin user if none exists
@@ -146,46 +152,50 @@ export async function POST(req: NextRequest) {
       { title: 'Poradenství a dozor', description: 'Odborné konzultace a stavební dozor pro hladký průběh každé stavby.', image: uploaded['poradenstvi.jpg'], page: pageIdsBySlug['poradenstvi'], accentColor: 'blue' },
     ].filter((s) => s.page);
 
-    await payload.updateGlobal({
-      slug: 'homepage' as const,
-      data: {
-        hero: {
-          slides: [
-            { title: 'Stavíme Vaše sny na pevných základech.', subtitle: 'Spolehlivá stavební firma v Praze s 15 lety zkušeností.', image: heroId },
-            { title: 'Precizní rekonstrukce pro Váš domov.', subtitle: 'Od bytových jader po kompletní přestavby.', image: aboutImgId },
-            { title: 'Moderní řešení pro firemní prostory.', subtitle: 'Fit-out kanceláří a komerčních interiérů na míru.', image: heroId },
-          ],
-        },
-        about: {
-          heading: 'Kdo jsme',
-          text: 'Stavopro Styl je rodinná stavební firma z Prahy. Už více než 15 let proměňujeme plány ve skutečnost – od základů až po střechu. Zakládáme si na poctivém řemesle, dodržování termínů a maximální spokojenosti zákazníků.',
-          image: aboutImgId,
-          buttonText: 'Zjistit více o nás',
-          buttonLink: '/o-nas',
-        },
-        services: {
-          heading: 'Naše služby',
-          subtitle: 'Komplexní stavební služby pro váš domov i komerční prostory',
-          items: serviceItems,
-        },
-        partners: {
-          heading: 'Spolupracujeme s nejlepšími',
-          items: [
-            { name: 'Logo Ipsum 1', logo: uploaded['partners/logo1.svg'], url: 'https://logoipsum.com/' },
-            { name: 'Logo Ipsum 2', logo: uploaded['partners/logo2.svg'], url: 'https://logoipsum.com/' },
-            { name: 'Logo Ipsum 3', logo: uploaded['partners/logo3.svg'], url: 'https://logoipsum.com/' },
-            { name: 'Logo Ipsum 4', logo: uploaded['partners/logo4.svg'], url: 'https://logoipsum.com/' },
-            { name: 'Logo Ipsum 5', logo: uploaded['partners/logo5.svg'], url: 'https://logoipsum.com/' },
-            { name: 'Logo Ipsum 6', logo: uploaded['partners/logo6.svg'], url: 'https://logoipsum.com/' },
-          ],
-        },
-        cta: {
-          heading: 'Máte stavební projekt v hlavě? Nechte to na nás – postavíme Vaše sny.',
-          subtitle: 'Jsme připraveni přeměnit vaše představy ve skutečnost. Vyplňte jednoduchý formulář a my vás budeme kontaktovat.',
-        },
-      } as Record<string, unknown>,
-    });
-    log.push('Homepage global seeded');
+    if (fullSeed) {
+      await payload.updateGlobal({
+        slug: 'homepage' as const,
+        data: {
+          hero: {
+            slides: [
+              { title: 'Stavíme Vaše sny na pevných základech.', subtitle: 'Spolehlivá stavební firma v Praze s 15 lety zkušeností.', image: heroId },
+              { title: 'Precizní rekonstrukce pro Váš domov.', subtitle: 'Od bytových jader po kompletní přestavby.', image: aboutImgId },
+              { title: 'Moderní řešení pro firemní prostory.', subtitle: 'Fit-out kanceláří a komerčních interiérů na míru.', image: heroId },
+            ],
+          },
+          about: {
+            heading: 'Kdo jsme',
+            text: 'Stavopro Styl je rodinná stavební firma z Prahy. Už více než 15 let proměňujeme plány ve skutečnost – od základů až po střechu. Zakládáme si na poctivém řemesle, dodržování termínů a maximální spokojenosti zákazníků.',
+            image: aboutImgId,
+            buttonText: 'Zjistit více o nás',
+            buttonLink: '/o-nas',
+          },
+          services: {
+            heading: 'Naše služby',
+            subtitle: 'Komplexní stavební služby pro váš domov i komerční prostory',
+            items: serviceItems,
+          },
+          partners: {
+            heading: 'Spolupracujeme s nejlepšími',
+            items: [
+              { name: 'Logo Ipsum 1', logo: uploaded['partners/logo1.svg'], url: 'https://logoipsum.com/' },
+              { name: 'Logo Ipsum 2', logo: uploaded['partners/logo2.svg'], url: 'https://logoipsum.com/' },
+              { name: 'Logo Ipsum 3', logo: uploaded['partners/logo3.svg'], url: 'https://logoipsum.com/' },
+              { name: 'Logo Ipsum 4', logo: uploaded['partners/logo4.svg'], url: 'https://logoipsum.com/' },
+              { name: 'Logo Ipsum 5', logo: uploaded['partners/logo5.svg'], url: 'https://logoipsum.com/' },
+              { name: 'Logo Ipsum 6', logo: uploaded['partners/logo6.svg'], url: 'https://logoipsum.com/' },
+            ],
+          },
+          cta: {
+            heading: 'Máte stavební projekt v hlavě? Nechte to na nás – postavíme Vaše sny.',
+            subtitle: 'Jsme připraveni přeměnit vaše představy ve skutečnost. Vyplňte jednoduchý formulář a my vás budeme kontaktovat.',
+          },
+        } as Record<string, unknown>,
+      });
+      log.push('Homepage global seeded (full=1)');
+    } else {
+      log.push('Homepage přeskočena (použij full=1 pro výchozí obsah HP)');
+    }
 
     // Seed reference projects
     const refProjects = [
@@ -286,38 +296,45 @@ export async function POST(req: NextRequest) {
       projectIds.push(doc.id as number);
     }
 
-    await payload.updateGlobal({
-      slug: 'homepage' as const,
-      data: {
-        references: {
-          heading: 'Naše reference',
-          subtitle: 'Přesvědčte se o kvalitě naší práce. Prohlédněte si vybrané projekty, které jsme realizovali.',
-          projects: projectIds,
-        },
-      } as Record<string, unknown>,
-    });
-    log.push('References linked to homepage');
+    if (fullSeed) {
+      await payload.updateGlobal({
+        slug: 'homepage' as const,
+        data: {
+          references: {
+            heading: 'Naše reference',
+            subtitle: 'Přesvědčte se o kvalitě naší práce. Prohlédněte si vybrané projekty, které jsme realizovali.',
+            projects: projectIds,
+          },
+        } as Record<string, unknown>,
+      });
+      log.push('References linked to homepage (full=1)');
+    } else {
+      log.push('Reference na HP přeskočeny (full=1)');
+    }
 
-    // Seed Footer global
-    await payload.updateGlobal({
-      slug: 'footer' as const,
-      data: {
-        companyDescription: 'Stavební firma zaměřená na kvalitu, inovace a spokojenost zákazníků. Již více než 15 let realizujeme vaše stavební projekty.',
-        contact: {
-          companyName: 'Stavopro Styl s.r.o.',
-          street: 'Stavební 1234/5',
-          city: '123 45 Praha',
-          phone: '+420 777 888 999',
-          email: 'info@stavoprostyl.cz',
+    if (fullSeed) {
+      await payload.updateGlobal({
+        slug: 'footer' as const,
+        data: {
+          companyDescription: 'Stavební firma zaměřená na kvalitu, inovace a spokojenost zákazníků. Již více než 15 let realizujeme vaše stavební projekty.',
+          contact: {
+            companyName: 'Stavopro Styl s.r.o.',
+            street: 'Stavební 1234/5',
+            city: '123 45 Praha',
+            phone: '+420 777 888 999',
+            email: 'info@stavoprostyl.cz',
+          },
+          disclaimer: {
+            copyright: 'Stavopro Styl s.r.o. Všechna práva vyhrazena.',
+            ic: '12345678',
+            dic: 'CZ12345678',
+          },
         },
-        disclaimer: {
-          copyright: 'Stavopro Styl s.r.o. Všechna práva vyhrazena.',
-          ic: '12345678',
-          dic: 'CZ12345678',
-        },
-      },
-    });
-    log.push('Footer global seeded');
+      });
+      log.push('Footer global seeded (full=1)');
+    } else {
+      log.push('Patička přeskočena (full=1)');
+    }
 
     return NextResponse.json({ success: true, log });
   } catch (error) {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
+import { sql } from 'drizzle-orm';
 
 export async function POST(req: NextRequest) {
   const token = req.nextUrl.searchParams.get('token');
@@ -16,21 +17,21 @@ export async function POST(req: NextRequest) {
     const log: string[] = [];
 
     const migrations = [
-      `ALTER TABLE pages ADD COLUMN IF NOT EXISTS meta_image_id integer`,
-      `ALTER TABLE projects ADD COLUMN IF NOT EXISTS meta_image_id integer`,
-      `ALTER TABLE homepage ADD COLUMN IF NOT EXISTS meta_image_id integer`,
-      `ALTER TABLE homepage ADD COLUMN IF NOT EXISTS noindex boolean DEFAULT true`,
-      `ALTER TABLE homepage_services_items ADD COLUMN IF NOT EXISTS page_id integer`,
+      sql`ALTER TABLE pages ADD COLUMN IF NOT EXISTS meta_image_id integer`,
+      sql`ALTER TABLE projects ADD COLUMN IF NOT EXISTS meta_image_id integer`,
+      sql`ALTER TABLE homepage ADD COLUMN IF NOT EXISTS meta_image_id integer`,
+      sql`ALTER TABLE homepage ADD COLUMN IF NOT EXISTS noindex boolean DEFAULT true`,
+      sql`ALTER TABLE homepage_services_items ADD COLUMN IF NOT EXISTS page_id integer`,
     ];
 
-    for (const sql of migrations) {
+    for (const migration of migrations) {
       try {
-        await db.drizzle.execute({ sql } as unknown as Parameters<typeof db.drizzle.execute>[0]);
-        log.push(`OK: ${sql.substring(0, 60)}...`);
+        await db.drizzle.execute(migration);
+        log.push(`OK: ${migration.queryChunks[0]?.toString().substring(0, 50)}...`);
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         if (msg.includes('already exists')) {
-          log.push(`SKIP (exists): ${sql.substring(0, 40)}...`);
+          log.push(`SKIP (exists)`);
         } else {
           log.push(`ERR: ${msg}`);
         }

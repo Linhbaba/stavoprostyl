@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props) {
     const page = result.docs[0] as Record<string, unknown> | undefined;
     if (page) {
       const meta = page.meta as Record<string, unknown> | undefined;
-      const ogImg = meta?.ogImage as Record<string, unknown> | undefined;
+      const ogImg = (meta?.image as Record<string, unknown>) || (meta?.ogImage as Record<string, unknown>);
       const ogUrl = typeof ogImg?.url === 'string' ? ogImg.url : undefined;
       const base = process.env.NEXT_PUBLIC_SITE_URL || '';
       return { 

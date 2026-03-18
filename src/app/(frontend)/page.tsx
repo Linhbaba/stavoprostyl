@@ -21,7 +21,7 @@ export async function generateMetadata() {
     if (hp) {
       const h = hp as Record<string, unknown>;
       const meta = h.meta as Record<string, unknown> | undefined;
-      const ogImg = meta?.ogImage as Record<string, unknown> | undefined;
+      const ogImg = (meta?.image as Record<string, unknown>) || (meta?.ogImage as Record<string, unknown>);
       const ogUrl = typeof ogImg?.url === 'string' ? ogImg.url : undefined;
       const base = process.env.NEXT_PUBLIC_SITE_URL || '';
       return {

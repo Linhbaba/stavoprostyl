@@ -5,6 +5,7 @@ import sharp from 'sharp'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { seoPlugin } from '@payloadcms/plugin-seo'
 import { migrations } from './migrations/index'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -39,6 +40,20 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
+    seoPlugin({
+      collections: ['pages', 'projects'],
+      globals: ['homepage'],
+      uploadsCollection: 'media',
+      tabbedUI: true,
+      generateTitle: ({ doc }) => {
+        const title = (doc as Record<string, unknown>)?.title
+        return typeof title === 'string' ? `${title} | Stavopro Styl` : 'Stavopro Styl'
+      },
+      generateDescription: ({ doc }) => {
+        const desc = (doc as Record<string, unknown>)?.description
+        return typeof desc === 'string' ? desc : ''
+      },
+    }),
     ...(process.env.R2_BUCKET
       ? [
           s3Storage({

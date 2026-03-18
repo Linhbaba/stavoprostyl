@@ -117,37 +117,11 @@ export const Homepage: GlobalConfig = {
       ],
     },
     {
-      name: 'meta',
-      type: 'group',
-      label: 'SEO',
-      fields: [
-        {
-          name: 'title',
-          type: 'text',
-          label: 'Meta title',
-          admin: { description: 'Doporučeno 50–60 znaků' },
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          label: 'Meta description',
-          admin: { description: 'Doporučeno 150–160 znaků' },
-        },
-        {
-          name: 'ogImage',
-          type: 'upload',
-          relationTo: 'media',
-          label: 'OG obrázek',
-          admin: { description: 'Obrázek pro sdílení na sociálních sítích (doporučeno 1200×630 px)' },
-        },
-        {
-          name: 'noindex',
-          type: 'checkbox',
-          label: 'Noindex (skrýt před vyhledávači)',
-          defaultValue: true,
-          admin: { description: 'Zaškrtněte, dokud web není připraven. Po spuštění odškrtněte.' },
-        },
-      ],
+      name: 'noindex',
+      type: 'checkbox',
+      label: 'Noindex (skrýt před vyhledávači)',
+      defaultValue: true,
+      admin: { description: 'Zaškrtněte, dokud web není připraven. Po spuštění odškrtněte.' },
     },
   ],
 }

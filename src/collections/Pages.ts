@@ -28,6 +28,20 @@ export const Pages: CollectionConfig = {
       label: 'Obsah',
     },
     {
+      name: 'pageType',
+      type: 'select',
+      label: 'Typ stránky',
+      defaultValue: 'standard',
+      options: [
+        { label: 'Standardní stránka', value: 'standard' },
+        { label: 'Služba', value: 'service' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Stránky typu „Služba“ lze vybrat v sekci Naše služby na hlavní stránce.',
+      },
+    },
+    {
       name: 'meta',
       type: 'group',
       label: 'SEO',
@@ -36,11 +50,20 @@ export const Pages: CollectionConfig = {
           name: 'title',
           type: 'text',
           label: 'Meta title',
+          admin: { description: 'Doporučeno 50–60 znaků' },
         },
         {
           name: 'description',
           type: 'textarea',
           label: 'Meta description',
+          admin: { description: 'Doporučeno 150–160 znaků' },
+        },
+        {
+          name: 'ogImage',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'OG obrázek',
+          admin: { description: 'Obrázek pro sdílení na sociálních sítích (doporučeno 1200×630 px)' },
         },
       ],
     },

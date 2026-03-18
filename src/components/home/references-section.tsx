@@ -24,7 +24,7 @@ const fallbackProjects: ReferenceProject[] = [
   { title: 'Administrativní budova Karlín', description: 'Stavba na klíč a fit-out kanceláří.', year: '2023', category: 'Komerční prostory', image: { url: '/api/media/file/reference3.webp' }, slug: 'administrativni-budova-karlin' },
 ];
 
-export function ReferencesSection({ heading, subtitle, projects: propProjects }: ReferencesSectionProps) {
+export function ReferencesSection({ projects: propProjects }: ReferencesSectionProps) {
   const projects = propProjects?.length ? propProjects : fallbackProjects;
   
   const mainProject = projects[0];

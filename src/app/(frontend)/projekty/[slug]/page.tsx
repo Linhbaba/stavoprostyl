@@ -22,14 +22,19 @@ export async function generateMetadata({ params }: Props) {
     const result = await payload.find({
       collection: 'projects',
       where: { slug: { equals: slug }, status: { equals: 'published' } },
+      depth: 1,
       limit: 1,
     });
     const project = result.docs[0] as Record<string, unknown> | undefined;
     if (project) {
       const meta = project.meta as Record<string, unknown> | undefined;
+      const ogImg = meta?.ogImage as Record<string, unknown> | undefined;
+      const ogUrl = typeof ogImg?.url === 'string' ? ogImg.url : undefined;
+      const base = process.env.NEXT_PUBLIC_SITE_URL || '';
       return { 
         title: (meta?.title as string) || `${project.title} | Stavopro Styl`,
         description: (meta?.description as string) || undefined,
+        openGraph: ogUrl ? { images: [{ url: ogUrl.startsWith('http') ? ogUrl : `${base}${ogUrl}` }] } : undefined,
       };
     }
   } catch { /* */ }

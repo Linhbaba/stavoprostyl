@@ -17,13 +17,17 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata() {
   try {
     const payload = await getPayloadClient();
-    const hp = await payload.findGlobal({ slug: 'homepage' as const });
+    const hp = await payload.findGlobal({ slug: 'homepage' as const, depth: 1 });
     if (hp) {
       const h = hp as Record<string, unknown>;
       const meta = h.meta as Record<string, unknown> | undefined;
+      const ogImg = meta?.ogImage as Record<string, unknown> | undefined;
+      const ogUrl = typeof ogImg?.url === 'string' ? ogImg.url : undefined;
+      const base = process.env.NEXT_PUBLIC_SITE_URL || '';
       return {
         title: (meta?.title as string) || 'Stavopro Styl | Stavební společnost',
         description: (meta?.description as string) || 'Stavopro Styl - Vaše spolehlivá stavební společnost.',
+        openGraph: ogUrl ? { images: [{ url: ogUrl.startsWith('http') ? ogUrl : `${base}${ogUrl}` }] } : undefined,
       };
     }
   } catch { /* */ }
@@ -94,13 +98,18 @@ export default async function Home() {
         servicesData = {
           heading: (services.heading as string) || undefined,
           subtitle: (services.subtitle as string) || undefined,
-          items: items?.map((item): ServiceItem => ({
-            title: (item.title as string) || '',
-            description: (item.description as string) || undefined,
-            image: item.image ? mediaObj(item.image) : undefined,
-            link: (item.link as string) || undefined,
-            accentColor: (item.accentColor as string) || 'blue',
-          })),
+          items: items?.map((item): ServiceItem => {
+            const page = item.page as Record<string, unknown> | undefined;
+            const slug = page?.slug as string | undefined;
+            const link = slug ? `/${slug}` : undefined;
+            return {
+              title: (item.title as string) || '',
+              description: (item.description as string) || undefined,
+              image: item.image ? mediaObj(item.image) : undefined,
+              link,
+              accentColor: (item.accentColor as string) || 'blue',
+            };
+          }),
         };
       }
 

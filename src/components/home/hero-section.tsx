@@ -18,7 +18,7 @@ interface HeroSectionProps {
 const fallbackSlides: HeroSlide[] = [
   { title: 'Stavíme Vaše sny na pevných základech.', subtitle: 'Spolehlivá stavební firma v Praze s 15 lety zkušeností.', image: { url: '/hero.jpg', alt: 'Hero' } },
   { title: 'Precizní rekonstrukce pro Váš domov.', subtitle: 'Od bytových jader po kompletní přestavby.', image: { url: '/about.jpg', alt: 'Rekonstrukce' } },
-  { title: 'Moderní řešení pro firemní prostory.', subtitle: 'Fit-out kanceláří a komerčních interiérů na míru.', image: { url: '/hero.jpg', alt: 'Komerční' } },
+  { title: 'Moderní řešení pro firemní prostory.', subtitle: 'Fit-out kanceláří a komerčních interiérů na míru.', image: { url: '/vystavby_na_klic.jpg', alt: 'Výstavba na klíč' } },
 ];
 
 const SLIDE_INTERVAL = 4000;

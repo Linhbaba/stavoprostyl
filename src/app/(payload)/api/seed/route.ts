@@ -160,7 +160,7 @@ export async function POST(req: NextRequest) {
             slides: [
               { title: 'Stavíme Vaše sny na pevných základech.', subtitle: 'Spolehlivá stavební firma v Praze s 15 lety zkušeností.', image: heroId },
               { title: 'Precizní rekonstrukce pro Váš domov.', subtitle: 'Od bytových jader po kompletní přestavby.', image: aboutImgId },
-              { title: 'Moderní řešení pro firemní prostory.', subtitle: 'Fit-out kanceláří a komerčních interiérů na míru.', image: uploaded['vystavby_na_klic.jpg'] ?? uploaded['reference3.jpg'] },
+              { title: 'Moderní řešení pro firemní prostory.', subtitle: 'Fit-out kanceláří a komerčních interiérů na míru.', image: uploaded['reference3.jpg'] ?? uploaded['cta.jpg'] },
             ],
           },
           about: {
@@ -329,6 +329,16 @@ export async function POST(req: NextRequest) {
             ic: '12345678',
             dic: 'CZ12345678',
           },
+          aboutLinks: [
+            { label: 'O společnosti', href: '/o-nas' },
+            { label: 'Projekty a reference', href: '/projekty' },
+            { label: 'Kontakt', href: '/#kontakt' },
+          ],
+          legalLinks: [
+            { label: 'Ochrana osobních údajů', href: '/zasady-ochrany-osobnich-udaju' },
+            { label: 'Obchodní podmínky', href: '/obchodni-podminky' },
+            { label: 'Cookies', href: '/cookies' },
+          ],
         },
       });
       log.push('Footer global seeded (full=1)');

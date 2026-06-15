@@ -1,4 +1,6 @@
 import { getPayloadClient } from '@/lib/payload';
+import { getFooterContent } from '@/lib/cms-globals';
+import { parseHomepageServiceItems } from '@/lib/homepage-services';
 import { HeroSection } from '@/components/home/hero-section';
 import { AboutSection } from '@/components/home/about-section';
 import { ServicesSection } from '@/components/home/services-section';
@@ -10,7 +12,7 @@ import type { AboutData } from '@/components/home/about-section';
 import type { ServicesData, ServiceItem } from '@/components/home/services-section';
 import type { ReferenceProject } from '@/components/home/references-section';
 import type { PartnerItem } from '@/components/home/partners-section';
-import type { CtaData } from '@/components/home/cta-section';
+import type { CtaData, CtaContact } from '@/components/home/cta-section';
 
 export const dynamic = 'force-dynamic';
 
@@ -59,9 +61,17 @@ export default async function Home() {
   let partnersHeading: string | undefined;
   let partnersItems: PartnerItem[] | undefined;
   let ctaData: CtaData | undefined;
+  let ctaContact: CtaContact | undefined;
 
   try {
-    const payload = await getPayloadClient();
+    const [payload, footerContent] = await Promise.all([
+      getPayloadClient(),
+      getFooterContent(),
+    ]);
+    ctaContact = {
+      phone: footerContent.contact.phone,
+      email: footerContent.contact.email,
+    };
     const hp = await payload.findGlobal({ slug: 'homepage' as const, depth: 2 });
 
     if (hp) {
@@ -94,23 +104,20 @@ export default async function Home() {
       // Services
       const services = h.services as Record<string, unknown> | undefined;
       if (services) {
-        const items = services.items as Record<string, unknown>[] | undefined;
-        servicesData = {
-          heading: (services.heading as string) || undefined,
-          subtitle: (services.subtitle as string) || undefined,
-          items: items?.map((item): ServiceItem => {
-            const page = item.page as Record<string, unknown> | undefined;
-            const slug = page?.slug as string | undefined;
-            const link = slug ? `/${slug}` : undefined;
-            return {
-              title: (item.title as string) || '',
-              description: (item.description as string) || undefined,
-              image: item.image ? mediaObj(item.image) : undefined,
-              link,
-              accentColor: (item.accentColor as string) || 'blue',
-            };
-          }),
-        };
+        const items = parseHomepageServiceItems(h);
+        if (items.length > 0) {
+          servicesData = {
+            heading: (services.heading as string) || undefined,
+            subtitle: (services.subtitle as string) || undefined,
+            items: items.map((item): ServiceItem => ({
+              title: item.title,
+              description: item.description,
+              image: item.image,
+              link: item.href,
+              accentColor: item.accentColor,
+            })),
+          };
+        }
       }
 
       // References
@@ -169,7 +176,7 @@ export default async function Home() {
       <ReferencesSection heading={refHeading} subtitle={refSubtitle} projects={referenceProjects} />
       <AboutSection data={aboutData} />
       <PartnersSection heading={partnersHeading} items={partnersItems} />
-      <CtaSection data={ctaData} />
+      <CtaSection data={ctaData} contact={ctaContact} />
     </main>
   );
 }

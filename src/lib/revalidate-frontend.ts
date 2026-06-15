@@ -12,4 +12,6 @@ export function revalidateSiteBranding() {
 
 export function revalidateHomepageMeta() {
   revalidateTag(GLOBAL_HOMEPAGE_TAG)
+  revalidatePath('/', 'layout')
+  revalidateTag(GLOBAL_FOOTER_TAG)
 }

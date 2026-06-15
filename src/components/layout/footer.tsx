@@ -8,9 +8,19 @@ interface FooterProps {
   content: FooterContent
 }
 
+function FooterLinkItem({ label, href }: { label: string; href: string }) {
+  return (
+    <li>
+      <Link href={href} className="text-sm text-gray-300/90 hover:text-white transition-colors">
+        {label}
+      </Link>
+    </li>
+  )
+}
+
 export function Footer({ logo, content }: FooterProps) {
   const currentYear = new Date().getFullYear()
-  const { companyDescription, contact, disclaimer } = content
+  const { companyDescription, contact, services, aboutLinks, legalLinks, disclaimer } = content
 
   return (
     <footer className="bg-dark-blue text-soft-white">
@@ -30,26 +40,21 @@ export function Footer({ logo, content }: FooterProps) {
               Služby
             </h3>
             <ul className="space-y-2">
-              <li>
-                <Link href="/vystavba-na-klic" className="text-sm text-gray-300/90 hover:text-white transition-colors">
-                  Výstavba na klíč
-                </Link>
-              </li>
-              <li>
-                <Link href="/rekonstrukce" className="text-sm text-gray-300/90 hover:text-white transition-colors">
-                  Rekonstrukce
-                </Link>
-              </li>
-              <li>
-                <Link href="/architektonicke-navrhy" className="text-sm text-gray-300/90 hover:text-white transition-colors">
-                  Architektonické návrhy
-                </Link>
-              </li>
-              <li>
-                <Link href="/poradenstvi" className="text-sm text-gray-300/90 hover:text-white transition-colors">
-                  Poradenství a dozor
-                </Link>
-              </li>
+              {services.length > 0 ? (
+                services.map((service) => (
+                  <li key={service.title}>
+                    {service.href ? (
+                      <Link href={service.href} className="text-sm text-gray-300/90 hover:text-white transition-colors">
+                        {service.title}
+                      </Link>
+                    ) : (
+                      <span className="text-sm text-gray-300/90">{service.title}</span>
+                    )}
+                  </li>
+                ))
+              ) : (
+                <li className="text-sm text-gray-400">Žádné služby v administraci.</li>
+              )}
             </ul>
           </div>
 
@@ -58,21 +63,9 @@ export function Footer({ logo, content }: FooterProps) {
               O nás
             </h3>
             <ul className="space-y-2">
-              <li>
-                <Link href="/o-nas" className="text-sm text-gray-300/90 hover:text-white transition-colors">
-                  O společnosti
-                </Link>
-              </li>
-              <li>
-                <Link href="/projekty" className="text-sm text-gray-300/90 hover:text-white transition-colors">
-                  Projekty a reference
-                </Link>
-              </li>
-              <li>
-                <Link href="/#kontakt" className="text-sm text-gray-300/90 hover:text-white transition-colors">
-                  Kontakt
-                </Link>
-              </li>
+              {aboutLinks.map((link) => (
+                <FooterLinkItem key={`${link.href}-${link.label}`} label={link.label} href={link.href} />
+              ))}
             </ul>
           </div>
 
@@ -108,16 +101,16 @@ export function Footer({ logo, content }: FooterProps) {
           <p className="text-xs text-gray-400">
             © {currentYear} {disclaimer.copyright} IČ: {disclaimer.ic}, DIČ: {disclaimer.dic}
           </p>
-          <div className="flex gap-5 mt-3 md:mt-0">
-            <Link href="/zasady-ochrany-osobnich-udaju" className="text-xs text-gray-400 hover:text-soft-white transition-colors">
-              Ochrana osobních údajů
-            </Link>
-            <Link href="/obchodni-podminky" className="text-xs text-gray-400 hover:text-soft-white transition-colors">
-              Obchodní podmínky
-            </Link>
-            <Link href="/cookies" className="text-xs text-gray-400 hover:text-soft-white transition-colors">
-              Cookies
-            </Link>
+          <div className="flex flex-wrap gap-5 mt-3 md:mt-0">
+            {legalLinks.map((link) => (
+              <Link
+                key={`${link.href}-${link.label}`}
+                href={link.href}
+                className="text-xs text-gray-400 hover:text-soft-white transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

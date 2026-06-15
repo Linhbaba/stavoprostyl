@@ -3,17 +3,31 @@
 import { useState } from 'react';
 
 export interface CtaData {
-  heading?: string;
-  subtitle?: string;
+  heading?: string
+  subtitle?: string
+}
+
+export interface CtaContact {
+  phone: string
+  email: string
 }
 
 interface CtaSectionProps {
-  data?: CtaData;
+  data?: CtaData
+  contact?: CtaContact
 }
 
-export function CtaSection({ data }: CtaSectionProps) {
+const DEFAULT_CONTACT: CtaContact = {
+  phone: '+420 777 888 999',
+  email: 'info@stavoprostyl.cz',
+}
+
+export function CtaSection({ data, contact }: CtaSectionProps) {
   const heading = data?.heading || 'Máte stavební projekt v hlavě? Nechte to na nás – postavíme Vaše sny.';
   const subtitle = data?.subtitle || 'Jsme připraveni přeměnit vaše představy ve skutečnost. Vyplňte jednoduchý formulář a my vás budeme kontaktovat.';
+  const phone = contact?.phone || DEFAULT_CONTACT.phone;
+  const email = contact?.email || DEFAULT_CONTACT.email;
+  const phoneHref = `tel:${phone.replace(/\s/g, '')}`;
 
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -56,11 +70,11 @@ export function CtaSection({ data }: CtaSectionProps) {
             <div className="space-y-6">
               <div>
                 <h4 className="text-lg font-bold font-heading mb-1">E-mail</h4>
-                <a href="mailto:info@stavoprostyl.cz" className="text-white/80 hover:text-primary-red transition-colors">info@stavoprostyl.cz</a>
+                <a href={`mailto:${email}`} className="text-white/80 hover:text-primary-red transition-colors">{email}</a>
               </div>
               <div>
                 <h4 className="text-lg font-bold font-heading mb-1">Telefon</h4>
-                <a href="tel:+420777888999" className="text-white/80 hover:text-primary-red transition-colors">+420 777 888 999</a>
+                <a href={phoneHref} className="text-white/80 hover:text-primary-red transition-colors">{phone}</a>
               </div>
             </div>
           </div>

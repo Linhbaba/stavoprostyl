@@ -4,6 +4,9 @@ import { revalidateSiteBranding } from '@/lib/revalidate-frontend'
 export const Footer: GlobalConfig = {
   slug: 'footer',
   label: 'Patička webu',
+  admin: {
+    description: 'Služby v patičce se automaticky načítají z Hlavní stránka → Služby. E-mail a telefon u kontaktního formuláře se berou z Kontaktních údajů níže.',
+  },
   hooks: {
     afterChange: [() => { revalidateSiteBranding() }],
   },
@@ -24,6 +27,37 @@ export const Footer: GlobalConfig = {
         { name: 'city', type: 'text', label: 'PSČ a Město', defaultValue: '123 45 Praha' },
         { name: 'phone', type: 'text', label: 'Telefon', defaultValue: '+420 777 888 999' },
         { name: 'email', type: 'text', label: 'E-mail', defaultValue: 'info@stavoprostyl.cz' },
+      ],
+    },
+    {
+      name: 'aboutLinks',
+      type: 'array',
+      label: 'Odkazy — sloupec O nás',
+      admin: {
+        description: 'Rychlé odkazy v patičce (např. O společnosti, Projekty, Kontakt).',
+      },
+      fields: [
+        { name: 'label', type: 'text', label: 'Text odkazu', required: true },
+        { name: 'href', type: 'text', label: 'URL', required: true },
+      ],
+      defaultValue: [
+        { label: 'O společnosti', href: '/o-nas' },
+        { label: 'Projekty a reference', href: '/projekty' },
+        { label: 'Kontakt', href: '/#kontakt' },
+      ],
+    },
+    {
+      name: 'legalLinks',
+      type: 'array',
+      label: 'Právní odkazy (spodní lišta)',
+      fields: [
+        { name: 'label', type: 'text', label: 'Text odkazu', required: true },
+        { name: 'href', type: 'text', label: 'URL', required: true },
+      ],
+      defaultValue: [
+        { label: 'Ochrana osobních údajů', href: '/zasady-ochrany-osobnich-udaju' },
+        { label: 'Obchodní podmínky', href: '/obchodni-podminky' },
+        { label: 'Cookies', href: '/cookies' },
       ],
     },
     {

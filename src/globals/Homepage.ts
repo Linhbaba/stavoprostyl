@@ -1,10 +1,15 @@
 import type { GlobalConfig } from 'payload'
 import { revalidateHomepageMeta } from '@/lib/revalidate-frontend'
+import { deduplicateHomepageImagesHook } from '@/hooks/deduplicate-homepage-images'
+
+const IMAGE_FIELD_DESCRIPTION =
+  'Každá sekce musí mít vlastní obrázek. Nahrajte nový soubor — nesdílejte stejný soubor z knihovny médií s jinou sekcí (hero, služby, o nás).'
 
 export const Homepage: GlobalConfig = {
   slug: 'homepage',
   label: 'Hlavní stránka',
   hooks: {
+    beforeChange: [deduplicateHomepageImagesHook],
     afterChange: [() => { revalidateHomepageMeta() }],
   },
   fields: [
@@ -22,7 +27,7 @@ export const Homepage: GlobalConfig = {
           fields: [
             { name: 'title', type: 'text', label: 'Nadpis', required: true },
             { name: 'subtitle', type: 'text', label: 'Podnadpis' },
-            { name: 'image', type: 'upload', relationTo: 'media', label: 'Obrázek', required: true },
+            { name: 'image', type: 'upload', relationTo: 'media', label: 'Obrázek', required: true, admin: { description: IMAGE_FIELD_DESCRIPTION } },
           ],
         },
       ],
@@ -34,7 +39,7 @@ export const Homepage: GlobalConfig = {
       fields: [
         { name: 'heading', type: 'text', label: 'Nadpis', defaultValue: 'Kdo jsme' },
         { name: 'text', type: 'textarea', label: 'Text' },
-        { name: 'image', type: 'upload', relationTo: 'media', label: 'Obrázek' },
+        { name: 'image', type: 'upload', relationTo: 'media', label: 'Obrázek', admin: { description: IMAGE_FIELD_DESCRIPTION } },
         { name: 'buttonText', type: 'text', label: 'Text tlačítka', defaultValue: 'Zjistit více o nás' },
         { name: 'buttonLink', type: 'text', label: 'Odkaz tlačítka', defaultValue: '/o-nas' },
       ],
@@ -53,7 +58,7 @@ export const Homepage: GlobalConfig = {
           fields: [
             { name: 'title', type: 'text', label: 'Název', required: true },
             { name: 'description', type: 'textarea', label: 'Popis' },
-            { name: 'image', type: 'upload', relationTo: 'media', label: 'Obrázek' },
+            { name: 'image', type: 'upload', relationTo: 'media', label: 'Obrázek', admin: { description: IMAGE_FIELD_DESCRIPTION } },
             {
               name: 'page',
               type: 'relationship',
@@ -114,7 +119,10 @@ export const Homepage: GlobalConfig = {
     {
       name: 'cta',
       type: 'group',
-      label: 'CTA sekce',
+      label: 'CTA sekce (kontaktní formulář)',
+      admin: {
+        description: 'E-mail a telefon vedle formuláře se berou z Patička webu → Kontaktní údaje.',
+      },
       fields: [
         { name: 'heading', type: 'text', label: 'Nadpis' },
         { name: 'subtitle', type: 'text', label: 'Podnadpis' },

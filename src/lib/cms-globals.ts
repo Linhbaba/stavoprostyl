@@ -2,11 +2,14 @@ import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
 import { getPayloadClient } from '@/lib/payload'
 import { parseSiteLogos, type SiteLogos } from '@/lib/site-branding'
+import { parseHomepageServices, type FooterServiceLink } from '@/lib/homepage-services'
 import {
   GLOBAL_FOOTER_TAG,
   GLOBAL_HOMEPAGE_TAG,
   GLOBAL_SITE_SETTINGS_TAG,
 } from '@/lib/revalidate-frontend'
+
+export type { FooterServiceLink }
 
 const CMS_CACHE_SECONDS = 60
 
@@ -25,6 +28,7 @@ function getCachedGlobal(slug: string, tag: string, depth = 1) {
 
 const getCachedSiteSettings = getCachedGlobal('site-settings', GLOBAL_SITE_SETTINGS_TAG)
 const getCachedFooter = getCachedGlobal('footer', GLOBAL_FOOTER_TAG)
+const getCachedHomepageDeep = getCachedGlobal('homepage', GLOBAL_HOMEPAGE_TAG, 2)
 
 export async function getSiteLogos(): Promise<SiteLogos> {
   try {
@@ -33,6 +37,11 @@ export async function getSiteLogos(): Promise<SiteLogos> {
   } catch {
     return parseSiteLogos(null)
   }
+}
+
+export interface FooterLink {
+  label: string
+  href: string
 }
 
 export interface FooterContent {
@@ -44,12 +53,27 @@ export interface FooterContent {
     phone: string
     email: string
   }
+  services: FooterServiceLink[]
+  aboutLinks: FooterLink[]
+  legalLinks: FooterLink[]
   disclaimer: {
     copyright: string
     ic: string
     dic: string
   }
 }
+
+const DEFAULT_ABOUT_LINKS: FooterLink[] = [
+  { label: 'O společnosti', href: '/o-nas' },
+  { label: 'Projekty a reference', href: '/projekty' },
+  { label: 'Kontakt', href: '/#kontakt' },
+]
+
+const DEFAULT_LEGAL_LINKS: FooterLink[] = [
+  { label: 'Ochrana osobních údajů', href: '/zasady-ochrany-osobnich-udaju' },
+  { label: 'Obchodní podmínky', href: '/obchodni-podminky' },
+  { label: 'Cookies', href: '/cookies' },
+]
 
 const DEFAULT_FOOTER: FooterContent = {
   companyDescription:
@@ -61,6 +85,9 @@ const DEFAULT_FOOTER: FooterContent = {
     phone: '+420 777 888 999',
     email: 'info@stavoprostyl.cz',
   },
+  services: [],
+  aboutLinks: DEFAULT_ABOUT_LINKS,
+  legalLinks: DEFAULT_LEGAL_LINKS,
   disclaimer: {
     copyright: 'Stavopro Styl s.r.o. Všechna práva vyhrazena.',
     ic: '12345678',
@@ -72,7 +99,24 @@ function asString(value: unknown, fallback: string): string {
   return typeof value === 'string' && value.trim() ? value.trim() : fallback
 }
 
-export function parseFooterContent(data: unknown): FooterContent {
+function parseFooterLinks(items: unknown, fallback: FooterLink[]): FooterLink[] {
+  if (!Array.isArray(items) || items.length === 0) return fallback
+
+  const parsed = items
+    .map((item): FooterLink | null => {
+      if (!item || typeof item !== 'object') return null
+      const record = item as Record<string, unknown>
+      const label = typeof record.label === 'string' ? record.label.trim() : ''
+      const href = typeof record.href === 'string' ? record.href.trim() : ''
+      if (!label || !href) return null
+      return { label, href }
+    })
+    .filter((item): item is FooterLink => item !== null)
+
+  return parsed.length > 0 ? parsed : fallback
+}
+
+export function parseFooterContent(data: unknown, homepage?: unknown): FooterContent {
   const source = (data as Record<string, unknown> | null) ?? {}
   const contact = (source.contact as Record<string, unknown> | undefined) ?? {}
   const disclaimer = (source.disclaimer as Record<string, unknown> | undefined) ?? {}
@@ -86,6 +130,9 @@ export function parseFooterContent(data: unknown): FooterContent {
       phone: asString(contact.phone, DEFAULT_FOOTER.contact.phone),
       email: asString(contact.email, DEFAULT_FOOTER.contact.email),
     },
+    services: parseHomepageServices(homepage),
+    aboutLinks: parseFooterLinks(source.aboutLinks, DEFAULT_ABOUT_LINKS),
+    legalLinks: parseFooterLinks(source.legalLinks, DEFAULT_LEGAL_LINKS),
     disclaimer: {
       copyright: asString(disclaimer.copyright, DEFAULT_FOOTER.disclaimer.copyright),
       ic: asString(disclaimer.ic, DEFAULT_FOOTER.disclaimer.ic),
@@ -96,8 +143,11 @@ export function parseFooterContent(data: unknown): FooterContent {
 
 export async function getFooterContent(): Promise<FooterContent> {
   try {
-    const footer = await getCachedFooter()
-    return parseFooterContent(footer)
+    const [footer, homepage] = await Promise.all([
+      getCachedFooter(),
+      getCachedHomepageDeep(),
+    ])
+    return parseFooterContent(footer, homepage)
   } catch {
     return DEFAULT_FOOTER
   }

@@ -1,80 +1,30 @@
-'use client';
+import Link from 'next/link'
+import type { FooterContent } from '@/lib/cms-globals'
+import type { SiteLogo } from '@/lib/site-branding'
+import { SiteLogoImage } from '@/components/layout/site-logo'
 
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-
-interface FooterData {
-  companyDescription?: string;
-  contact?: {
-    companyName?: string;
-    street?: string;
-    city?: string;
-    phone?: string;
-    email?: string;
-  };
-  disclaimer?: {
-    copyright?: string;
-    ic?: string;
-    dic?: string;
-  };
+interface FooterProps {
+  logo: SiteLogo
+  content: FooterContent
 }
 
-export function Footer() {
-  const currentYear = new Date().getFullYear();
-  const [data, setData] = useState<FooterData | null>(null);
-
-  useEffect(() => {
-    async function fetchFooter() {
-      try {
-        const res = await fetch('/api/globals/footer');
-        if (res.ok) {
-          const json = await res.json();
-          setData(json);
-        }
-      } catch (error) {
-        console.error('Failed to fetch footer data', error);
-      }
-    }
-    fetchFooter();
-  }, []);
-
-  const desc = data?.companyDescription || 'Stavební firma zaměřená na kvalitu, inovace a spokojenost zákazníků. Již více než 15 let realizujeme vaše stavební projekty.';
-  const contact = data?.contact || {
-    companyName: 'Stavopro Styl s.r.o.',
-    street: 'Stavební 1234/5',
-    city: '123 45 Praha',
-    phone: '+420 777 888 999',
-    email: 'info@stavoprostyl.cz',
-  };
-  const disclaimer = data?.disclaimer || {
-    copyright: 'Stavopro Styl s.r.o. Všechna práva vyhrazena.',
-    ic: '12345678',
-    dic: 'CZ12345678',
-  };
+export function Footer({ logo, content }: FooterProps) {
+  const currentYear = new Date().getFullYear()
+  const { companyDescription, contact, disclaimer } = content
 
   return (
     <footer className="bg-dark-blue text-soft-white">
-      {/* Hlavní obsah patičky */}
       <div className="container mx-auto max-w-screen-desktop px-4 py-12 sm:px-6">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4 md:gap-8">
-          {/* Společnost a logo */}
           <div className="space-y-4">
             <Link href="/" className="inline-block">
-              <Image 
-                src="/stavoprostyl_light.svg" 
-                alt="Stavopro Styl Logo" 
-                width={250} 
-                height={44} 
-                className="w-48 lg:w-56 h-auto"
-              />
+              <SiteLogoImage logo={logo} className="w-48 lg:w-56 h-auto" />
             </Link>
             <p className="mt-2 text-sm text-gray-300/90 max-w-xs">
-              {desc}
+              {companyDescription}
             </p>
           </div>
 
-          {/* Služby */}
           <div>
             <h3 className="font-heading text-lg font-bold tracking-wide text-white mb-4">
               Služby
@@ -103,7 +53,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Rychlé odkazy */}
           <div>
             <h3 className="font-heading text-lg font-bold tracking-wide text-white mb-4">
               O nás
@@ -127,7 +76,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Kontakt */}
           <div>
             <h3 className="font-heading text-lg font-bold tracking-wide text-white mb-4">
               Kontakt
@@ -141,7 +89,7 @@ export function Footer() {
                 {contact.city}
               </p>
               <p className="text-sm text-gray-300/90 pt-2">
-                <Link href={`tel:${contact.phone?.replace(/\s/g, '')}`} className="hover:text-white transition-colors">
+                <Link href={`tel:${contact.phone.replace(/\s/g, '')}`} className="hover:text-white transition-colors">
                   Tel: {contact.phone}
                 </Link>
               </p>
@@ -155,7 +103,6 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Spodní lišta s copyrightem a odkazy */}
       <div className="border-t border-white/10">
         <div className="container mx-auto max-w-screen-desktop px-4 py-6 sm:px-6 flex flex-col md:flex-row items-center justify-between">
           <p className="text-xs text-gray-400">
@@ -175,5 +122,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  );
-} 
+  )
+}

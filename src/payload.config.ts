@@ -13,6 +13,7 @@ import { Pages } from './collections/Pages'
 import { Projects } from './collections/Projects'
 import { Homepage } from './globals/Homepage'
 import { Footer } from './globals/Footer'
+import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -26,7 +27,7 @@ export default buildConfig({
   },
   editor: lexicalEditor(),
   collections: [Users, Media, Pages, Projects],
-  globals: [Homepage, Footer],
+  globals: [Homepage, Footer, SiteSettings],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

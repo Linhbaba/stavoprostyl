@@ -1,9 +1,13 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateSiteBranding } from '@/lib/revalidate-frontend'
 
 export const Media: CollectionConfig = {
   slug: 'media',
   access: {
     read: () => true,
+  },
+  hooks: {
+    afterDelete: [() => { revalidateSiteBranding() }],
   },
   upload: {
     mimeTypes: ['image/*', 'application/pdf'],

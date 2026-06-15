@@ -1,8 +1,12 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateSiteBranding } from '@/lib/revalidate-frontend'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
   label: 'Patička webu',
+  hooks: {
+    afterChange: [() => { revalidateSiteBranding() }],
+  },
   fields: [
     {
       name: 'companyDescription',

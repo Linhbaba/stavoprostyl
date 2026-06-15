@@ -1,17 +1,11 @@
 import "@/app/globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { getPayloadClient } from "@/lib/payload";
+import { getFooterContent, getHomepageNoindex, getSiteLogos } from "@/lib/cms-globals";
 import type { Metadata } from "next";
 
 async function getMetadata(): Promise<Metadata> {
-  let noindex = false;
-  try {
-    const payload = await getPayloadClient();
-    const hp = await payload.findGlobal({ slug: 'homepage' as const });
-    const meta = (hp as Record<string, unknown>)?.meta as Record<string, unknown> | undefined;
-    noindex = meta?.noindex === true;
-  } catch { /* */ }
+  const noindex = await getHomepageNoindex();
   return {
     title: { template: '%s | Stavopro Styl', default: 'Stavopro Styl | Stavební společnost' },
     description: 'Stavopro Styl - Vaše spolehlivá stavební společnost pro výstavbu na klíč, rekonstrukce a architektonické návrhy.',
@@ -22,17 +16,24 @@ async function getMetadata(): Promise<Metadata> {
 
 export const metadata: Promise<Metadata> = getMetadata();
 
-export default function FrontendLayout({
+export const revalidate = 60;
+
+export default async function FrontendLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [logos, footerContent] = await Promise.all([
+    getSiteLogos(),
+    getFooterContent(),
+  ]);
+
   return (
     <html lang="cs">
       <body className="font-sans bg-soft-white text-dark-blue min-h-screen flex flex-col">
-        <Header />
+        <Header logos={logos} />
         <main className="flex-grow pt-24">{children}</main>
-        <Footer />
+        <Footer logo={logos.light} content={footerContent} />
       </body>
     </html>
   );

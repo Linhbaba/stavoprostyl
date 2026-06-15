@@ -1,8 +1,12 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateHomepageMeta } from '@/lib/revalidate-frontend'
 
 export const Homepage: GlobalConfig = {
   slug: 'homepage',
   label: 'Hlavní stránka',
+  hooks: {
+    afterChange: [() => { revalidateHomepageMeta() }],
+  },
   fields: [
     {
       name: 'hero',

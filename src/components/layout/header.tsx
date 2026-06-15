@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
+import type { SiteLogos } from '@/lib/site-branding';
+import { SiteLogoImage } from '@/components/layout/site-logo';
 
 const navItems = [
   { name: 'Domů', href: '/' },
@@ -14,7 +15,11 @@ const navItems = [
   { name: 'Kontakt', href: '/#kontakt' },
 ];
 
-export function Header() {
+interface HeaderProps {
+  logos: SiteLogos;
+}
+
+export function Header({ logos }: HeaderProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -24,6 +29,9 @@ export function Header() {
     return pathname.startsWith(href);
   };
 
+  const isHome = pathname === '/';
+  const logo = isHome ? logos.light : logos.dark;
+
   return (
     <header className={clsx(
       "absolute top-0 left-0 right-0 z-[60] w-full",
@@ -32,13 +40,10 @@ export function Header() {
       <div className="container mx-auto flex h-24 max-w-screen-desktop items-center px-4 sm:px-6">
         <div className="mr-4 flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Image 
-              src={pathname === '/' ? "/stavoprostyl_light.svg" : "/stavoprostyl_dark.svg"} 
-              alt="Stavopro Styl Logo" 
-              width={250} 
-              height={44} 
-              className="w-48 lg:w-64 h-auto" 
-              priority 
+            <SiteLogoImage
+              logo={logo}
+              className="w-48 lg:w-64 h-auto"
+              priority
             />
           </Link>
         </div>

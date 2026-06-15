@@ -206,3 +206,25 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* You can add more global styles here if necessary */
+
+/* CMS rich text – tighter spacing between paragraphs */
+.cms-prose.prose :where(p) {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.cms-prose.prose :where(p:first-child) {
+  margin-top: 0;
+}
+
+.cms-prose.prose :where(p:last-child) {
+  margin-bottom: 0;
+}
+
+/* Empty line from editor (Enter) – keep a small gap, not a huge hole */
+.cms-prose.prose :where(p:empty),
+.cms-prose.prose :where(p:has(> br:only-child)) {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  line-height: 0.5;
+}

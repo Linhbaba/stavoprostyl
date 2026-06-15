@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getPayloadClient } from '@/lib/payload';
 import { RichText } from '@payloadcms/richtext-lexical/react';
+import { CmsProse } from '@/components/ui/cms-prose';
 
 export const dynamic = 'force-dynamic';
 
@@ -58,13 +59,13 @@ export default async function GenericPage({ params }: Props) {
           {page.title as string}
         </h1>
 
-        <div className="prose prose-lg max-w-none prose-headings:font-heading prose-headings:text-dark-blue prose-a:text-blue prose-img:shadow-lg">
+        <CmsProse>
           {page.content ? (
             <RichText data={page.content as Parameters<typeof RichText>[0]['data']} />
           ) : (
             <p className="text-dark-blue/70">Obsah se připravuje...</p>
           )}
-        </div>
+        </CmsProse>
       </div>
     </article>
   );

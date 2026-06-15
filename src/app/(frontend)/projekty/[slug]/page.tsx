@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getPayloadClient } from '@/lib/payload';
 import { RichText } from '@payloadcms/richtext-lexical/react';
+import { ProjectGallery, type GalleryImage } from '@/components/projects/project-gallery';
+import { CmsProse } from '@/components/ui/cms-prose';
 
 const categoryLabels: Record<string, string> = {
   vystavba: 'Výstavba na klíč',
@@ -62,6 +64,18 @@ export default async function ProjectDetailPage({ params }: Props) {
   const img = project.featuredImage as Record<string, unknown> | undefined;
   const gallery = project.gallery as Array<Record<string, unknown>> | undefined;
 
+  const galleryImages: GalleryImage[] = (gallery ?? [])
+    .map((item, index): GalleryImage | null => {
+      const galImg = item.image as Record<string, unknown> | undefined;
+      if (typeof galImg?.url !== 'string') return null;
+      return {
+        url: galImg.url,
+        alt: (typeof galImg.alt === 'string' ? galImg.alt : typeof item.caption === 'string' ? item.caption : null) || `Galerie ${index + 1}`,
+        caption: typeof item.caption === 'string' ? item.caption : undefined,
+      };
+    })
+    .filter((item): item is GalleryImage => item !== null);
+
   return (
     <article className="py-16 md:py-24 bg-soft-white">
       <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
@@ -96,36 +110,15 @@ export default async function ProjectDetailPage({ params }: Props) {
         )}
 
         {project.description != null && (
-          <div className="prose prose-lg max-w-none prose-headings:font-heading prose-headings:text-dark-blue prose-a:text-blue mb-12">
+          <CmsProse className="mb-12">
             <RichText data={project.description as Parameters<typeof RichText>[0]['data']} />
-          </div>
+          </CmsProse>
         )}
 
-        {gallery && gallery.length > 0 && (
+        {galleryImages.length > 0 && (
           <div>
             <h2 className="text-2xl font-bold font-heading text-dark-blue mb-6">Galerie</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {gallery.map((item, i) => {
-                const galImg = item.image as Record<string, unknown> | undefined;
-                if (typeof galImg?.url !== 'string') return null;
-                return (
-                  <div key={i} className="relative aspect-[4/3] overflow-hidden shadow-md">
-                    <Image
-                      src={galImg.url}
-                      alt={(typeof galImg.alt === 'string' ? galImg.alt : typeof item.caption === 'string' ? item.caption : null) || `Galerie ${i + 1}`}
-                      fill
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      className="object-cover hover:scale-105 transition-transform duration-300"
-                    />
-                    {typeof item.caption === 'string' && (
-                      <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-3">
-                        <p className="text-white text-sm">{item.caption}</p>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+            <ProjectGallery images={galleryImages} />
           </div>
         )}
       </div>
